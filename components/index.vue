@@ -1,0 +1,25 @@
+<template>
+  <div class="container">
+    <Navbar />
+    <div class="sidebar-and-content-grid">
+      <Sidebar />
+      <Content />
+    </div>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style scoped>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+}
+.sidebar-and-content-grid {
+  display: grid;
+  grid-template-columns: 15rem calc(100vw - 15rem);
+}
+</style>
+
