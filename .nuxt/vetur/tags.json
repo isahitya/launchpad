@@ -1,0 +1,32 @@
+{
+  "Content": {
+    "description": "Auto imported from components/Content.vue"
+  },
+  "LazyContent": {
+    "description": "Auto imported from components/Content.vue"
+  },
+  "Navbar": {
+    "description": "Auto imported from components/Navbar.vue"
+  },
+  "LazyNavbar": {
+    "description": "Auto imported from components/Navbar.vue"
+  },
+  "Sidebar": {
+    "description": "Auto imported from components/Sidebar.vue"
+  },
+  "LazySidebar": {
+    "description": "Auto imported from components/Sidebar.vue"
+  },
+  "SidebarItem": {
+    "description": "Auto imported from components/SidebarItem.vue"
+  },
+  "LazySidebarItem": {
+    "description": "Auto imported from components/SidebarItem.vue"
+  },
+  "Tile": {
+    "description": "Auto imported from components/Tile.vue"
+  },
+  "LazyTile": {
+    "description": "Auto imported from components/Tile.vue"
+  }
+}

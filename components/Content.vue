@@ -1,13 +1,11 @@
 <template>
-  <div class="app-content">
-    <div class="content">
-      <Tile
-        v-for="tile in tilesToDisplay"
-        :key="tile.id"
-        :name="tile.name"
-        :description="tile.description"
-      />
-    </div>
+  <div class="content">
+    <Tile
+      v-for="tile in tilesToDisplay"
+      :key="tile.id"
+      :name="tile.name"
+      :description="tile.description"
+    />
   </div>
 </template>
 
@@ -16,32 +14,29 @@ export default {
   computed: {
     tilesToDisplay() {
       let filter = this.$store.state.searchFilter.toUpperCase();
-      return this.$store.state.selectedCategory.tiles.filter(t => {
+      return this.$store.state.selectedCategory.tiles.filter((t) => {
         return (
           t.name.toUpperCase().includes(filter) ||
           t.description.toUpperCase().includes(filter)
         );
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.app-content {
-  display: grid;
-  height: calc(100vh - 4rem);
-}
-
 .content {
   margin-top: 0rem;
   padding-top: 1.5rem;
+  padding-left: 1rem;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: flex-start;
   align-content: flex-start;
   background-color: #f7f6f6;
+  height: calc(100vh - 4rem);
 }
 
 .selected-category-title {
@@ -68,4 +63,3 @@ export default {
   }
 }
 </style>
-

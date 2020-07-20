@@ -2,7 +2,7 @@
   <div
     v-bind:class="{
       'sidebar-item': true,
-      'highlighted-item': highlighted == true
+      'highlighted-item': highlighted == true,
     }"
   >
     <h1>{{ text }}</h1>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  props: { text: String, highlighted: Boolean }
+  props: { text: String, highlighted: Boolean },
 };
 </script>
 
@@ -24,7 +24,7 @@ export default {
   transition: background-color 0.2s linear;
 }
 .sidebar-item:hover {
-  background-color: rgb(236, 236, 236);
+  background-color: rgb(245, 245, 245);
 }
 
 .sidebar-item h1:hover {
@@ -40,7 +40,6 @@ export default {
 }
 
 .highlighted-item {
-  border-right: 2px solid black;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 }
@@ -50,4 +49,3 @@ export default {
   font-weight: 500;
 }
 </style>
-
