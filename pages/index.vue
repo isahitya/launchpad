@@ -1,3 +1,8 @@
+<!--
+  - Main page of the app
+  - Contains 3 components: navbar, sidebar, content
+-->
+
 <template>
   <div class="container">
     <Navbar />

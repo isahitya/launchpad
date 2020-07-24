@@ -1,3 +1,7 @@
+<!--
+<Content> component will generate:
+  - <Tile> component for tiles of the selected category
+-->
 <template>
   <div class="content">
     <Tile
@@ -39,27 +43,15 @@ export default {
   height: calc(100vh - 4rem);
 }
 
-.selected-category-title {
-  align-self: flex-start;
-  margin-left: 0.5rem;
-  margin-bottom: 1.5rem;
-  display: none;
-  color: black;
-  font-size: 1.5rem;
-  font-weight: 300;
-}
-
 @media (max-width: 30rem) {
-  .app-content {
-    grid-template-columns: 100vw;
-  }
   .content {
     flex-direction: column;
     align-items: center;
     align-content: center;
-  }
-  .selected-category-title {
-    display: inline-block;
+    grid-template-columns: 100vw;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
   }
 }
 </style>

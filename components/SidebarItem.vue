@@ -1,8 +1,14 @@
+<!--
+<SidebarItem> component will generate:
+  - header for the category name
+  - styling for the highlighted item
+-->
+
 <template>
   <div
-    v-bind:class="{
+    :class="{
       'sidebar-item': true,
-      'highlighted-item': highlighted == true,
+      'highlighted-item': highlight == true,
     }"
   >
     <h1>{{ text }}</h1>
@@ -11,7 +17,7 @@
 
 <script>
 export default {
-  props: { text: String, highlighted: Boolean },
+  props: { text: String, highlight: Boolean },
 };
 </script>
 
@@ -24,11 +30,7 @@ export default {
   transition: background-color 0.2s linear;
 }
 .sidebar-item:hover {
-  background-color: rgb(245, 245, 245);
-}
-
-.sidebar-item h1:hover {
-  cursor: pointer;
+  background-color: rgb(248, 248, 248);
 }
 
 .sidebar-item h1 {
@@ -36,16 +38,20 @@ export default {
   margin-left: 0.8rem;
   font-weight: 400;
   font-size: 1rem;
-  color: rgb(0, 0, 0);
+  color: rgb(55, 55, 55);
 }
 
-.highlighted-item {
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
+.sidebar-item h1:hover {
+  cursor: pointer;
+  color: black;
 }
 
 .highlighted-item h1 {
   color: #f58435;
   font-weight: 500;
+}
+
+.highlighted-item h1:hover {
+  color: #f58435;
 }
 </style>
