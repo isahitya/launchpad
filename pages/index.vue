@@ -14,7 +14,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  fetch() {},
+};
 </script>
 
 <style scoped>

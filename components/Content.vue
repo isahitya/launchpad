@@ -4,12 +4,14 @@
 -->
 <template>
   <div class="content">
-    <Tile
+    <a
+      style="text-decoration:none"
       v-for="tile in tilesToDisplay"
       :key="tile.id"
-      :name="tile.name"
-      :description="tile.description"
-    />
+      :href="createURL(tile.baseURL)"
+    >
+      <Tile :name="tile.name" :description="tile.description" />
+    </a>
   </div>
 </template>
 
@@ -17,13 +19,32 @@
 export default {
   computed: {
     tilesToDisplay() {
-      let filter = this.$store.state.searchFilter.toUpperCase();
-      return this.$store.state.selectedCategory.tiles.filter((t) => {
-        return (
-          t.name.toUpperCase().includes(filter) ||
-          t.description.toUpperCase().includes(filter)
-        );
-      });
+      let state = this.$store.state;
+      let filter = state.searchFilter.toUpperCase();
+      let tiles = [];
+      if (filter.length) {
+        state.categories.forEach((category) => {
+          let filteredTiles = category.tiles.filter(
+            (tile) =>
+              tile.name.toUpperCase().includes(filter) ||
+              tile.description.toUpperCase().includes(filter)
+          );
+          tiles.push(...filteredTiles);
+        });
+      } else tiles = state.selectedCategory.tiles;
+      return tiles;
+    },
+  },
+  methods: {
+    createURL(baseURL) {
+      return (
+        baseURL +
+        "?" +
+        "accountId=" +
+        this.$store.state.accountNumber +
+        "&region=" +
+        this.$store.state.selectedRegion.code
+      );
     },
   },
 };
