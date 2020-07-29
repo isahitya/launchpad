@@ -41,7 +41,7 @@ const createStore = () => {
           vuexContext.commit("initializeAppData", response.Items);
         } catch (err) {
           console.log("Cannot load data from server");
-          console.log(err);
+          console.log(err); //TODO: redirect to error page with appropriate message
         }
       },
       initializeAppData(vuexContext) {},

@@ -30,7 +30,7 @@ export default {
   },
 
   methods: {
-      setSelectedCategory(categoryId) {
+    categorySelected(categoryId) {
       this.$store.dispatch("setSearchFilter", "");
       this.$store.dispatch("setSelectedCategory", categoryId);
       this.moveSlider(categoryId);

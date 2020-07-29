@@ -22,6 +22,7 @@
       placeholder="Account number"
       type="number"
       v-model="accountNumber"
+      ref="accountNoInput"
     />
     <select
       class="region-select"
@@ -72,6 +73,7 @@ export default {
   },
   mounted() {
     this.$refs.regionSelect.selectedIndex = 0;
+    this.$refs.accountNoInput.value = "";
   },
 };
 </script>
