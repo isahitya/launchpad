@@ -17,28 +17,63 @@
       <div class="separator"></div>
       <h1 class="title">Launchpad</h1>
     </div>
-    <input class="account-no-input" placeholder="Account number" />
+    <input
+      class="account-no-input"
+      placeholder="Account number"
+      type="number"
+      v-model="accountNumber"
+      ref="accountNoInput"
+    />
+    <select
+      class="region-select"
+      @change="regionSelected($event)"
+      ref="regionSelect"
+    >
+      <option
+        v-for="region in $store.state.regions"
+        :key="region.code"
+        :value="region.code"
+        >{{ region.name }} {{ region.code }}</option
+      >
+    </select>
     <div class="quick-filter-hamburger-container">
       <a class="hamburger-menu-icon">
         <img src="~/assets/icons/hamburger_menu_icon.png"
       /></a>
       <img class="search-icon" src="~/assets/icons/search.png" />
-      <input
-        class="quick-filter"
-        placeholder="Search"
-        :value="$store.state.searchFilter"
-        @input="setSearchFilter($event)"
-      />
+      <input class="quick-filter" placeholder="Search" v-model="searchFilter" />
     </div>
   </header>
 </template>
 
 <script>
 export default {
-  methods: {
-    setSearchFilter(event) {
-      this.$store.dispatch("setSearchFilter", event.target.value);
+  computed: {
+    accountNumber: {
+      get() {
+        return this.$store.state.accountNumber;
+      },
+      set(value) {
+        this.$store.dispatch("setAccountNumber", value);
+      },
     },
+    searchFilter: {
+      get() {
+        return this.$store.state.searchFilter;
+      },
+      set(value) {
+        this.$store.dispatch("setSearchFilter", value);
+      },
+    },
+  },
+  methods: {
+    regionSelected(event) {
+      this.$store.dispatch("setSelectedRegion", event.target.value);
+    },
+  },
+  mounted() {
+    this.$refs.regionSelect.selectedIndex = 0;
+    this.$refs.accountNoInput.value = "";
   },
 };
 </script>
@@ -73,7 +108,7 @@ export default {
 }
 
 .separator {
-  border-left: 1px solid #cfcfcf;
+  border-left: 1px solid #161e27;
   height: 3rem;
   margin-left: 2px;
   margin-top: auto;
@@ -87,7 +122,7 @@ export default {
   box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.05);
   border-radius: 2px;
   height: 2rem;
-  width: 15rem;
+  width: 20rem;
   padding-left: 0.5rem;
   margin-left: auto;
   margin-left: 1rem;
@@ -103,6 +138,24 @@ export default {
 .account-no-input::placeholder {
   font-style: italic;
   opacity: 0.5;
+}
+
+.region-select {
+  background: url("~@/assets/icons/down_arrow.png") no-repeat right;
+  background-size: 0.8rem;
+  background-position-x: calc(100% - 0.3rem);
+  padding-right: 1.5rem;
+  padding-left: 0.5rem;
+  border-radius: 3px;
+  height: 2rem;
+  margin-left: 1rem;
+  background-color: white;
+  color: rgb(42, 42, 42);
+  outline: none;
+}
+
+.region-select option {
+  height: 2rem;
 }
 
 .quick-filter-hamburger-container {

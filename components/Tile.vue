@@ -1,3 +1,9 @@
+<!--
+<Tile> component will generate-
+  - Heading of the tile, separator and tile text
+  - Styling: Shadow for the tile, hover effect.
+-->
+
 <template>
   <div class="tile">
     <h1 class="tile-heading">{{ name }}</h1>
@@ -8,7 +14,7 @@
 
 <script>
 export default {
-  props: ["name", "description"]
+  props: ["name", "description"],
 };
 </script>
 
@@ -19,16 +25,20 @@ export default {
   border: 1px solid rgb(184, 184, 184);
   border-radius: 5px;
   width: 15rem;
-  height: 6rem;
-  margin: 0.5rem;
-  margin-bottom: 1rem;
-  margin-top: 0rem;
+  height: 7rem;
+  margin: 1.5rem;
+
   transition: box-shadow 0.2s linear;
 }
 
 .tile:hover {
   cursor: pointer;
   box-shadow: 0px 2px 4px 3px rgb(0, 0, 0, 0.5);
+  border-color: #f58435;
+}
+
+.tile:hover .tile-heading {
+  color: rgb(65, 65, 65);
 }
 
 .tile-heading {
@@ -47,10 +57,9 @@ export default {
 
 .tile-text {
   margin-left: 0.5rem;
-  margin-right: 2rem;
+  margin-right: 0.5rem;
   font-weight: 300;
   font-size: 0.9rem;
   color: rgb(75, 75, 75);
 }
 </style>
-

@@ -10,6 +10,7 @@
     "serve": "nuxt serve"
   },
   "dependencies": {
+    "aws-sdk": "^2.722.0",
     "nuxt": "^2.13.0"
   },
   "devDependencies": {}

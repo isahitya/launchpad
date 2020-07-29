@@ -21,17 +21,18 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        content: process.env.npm_package_description || "",
+      },
     ],
+    script: [],
     link: [
       { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap"
-      }
-    ]
+          "https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap",
+      },
+    ],
   },
   /*
    ** Global CSS
@@ -41,7 +42,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [],
+  plugins: ["~/plugins/categories-data.js"],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -59,5 +60,5 @@ export default {
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {}
+  build: {},
 };
