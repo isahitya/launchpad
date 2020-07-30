@@ -26,6 +26,7 @@ export default {
 }
 
 .sidebar-and-content-grid {
+  margin-top: 3rem;
   display: grid;
   grid-template-columns: 15rem calc(100vw - 15rem);
 }
