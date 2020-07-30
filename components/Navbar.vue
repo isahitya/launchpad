@@ -13,7 +13,7 @@
 <template>
   <header class="app-header">
     <div class="brand">
-      <img class="logo" src="~/assets/icons/aws_logo_white.png" />
+      <img class="logo" :src="this.$store.state.iconURLs.awsLogoWhite" />
       <div class="separator"></div>
       <h1 class="title">Launchpad</h1>
     </div>
@@ -28,6 +28,9 @@
       class="region-select"
       @change="regionSelected($event)"
       ref="regionSelect"
+      :style="{
+        backgroundImage: `url(${this.$store.state.iconURLs.downArrow})`,
+      }"
     >
       <option
         v-for="region in $store.state.regions"
@@ -38,9 +41,9 @@
     </select>
     <div class="quick-filter-hamburger-container">
       <a class="hamburger-menu-icon">
-        <img src="~/assets/icons/hamburger_menu_icon.png"
+        <img :src="this.$store.state.iconURLs.hamburger"
       /></a>
-      <img class="search-icon" src="~/assets/icons/search.png" />
+      <img class="search-icon" :src="this.$store.state.iconURLs.search" />
       <input class="quick-filter" placeholder="Search" v-model="searchFilter" />
     </div>
   </header>
@@ -73,6 +76,7 @@ export default {
   },
   mounted() {
     this.$refs.regionSelect.selectedIndex = 0;
+    this.$refs.regionSelect.style.backgroundImage = "";
     this.$refs.accountNoInput.value = "";
   },
 };
@@ -141,7 +145,8 @@ export default {
 }
 
 .region-select {
-  background: url("~@/assets/icons/down_arrow.png") no-repeat right;
+  background-repeat: no-repeat;
+  background-position: right;
   background-size: 0.8rem;
   background-position-x: calc(100% - 0.3rem);
   padding-right: 1.5rem;
