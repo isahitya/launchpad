@@ -77,6 +77,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   background-color: #ffffff;
+  box-shadow: 2px 2px 2px 1px rgb(0, 0, 0, 0.2);
 }
 
 .profile {

@@ -6,29 +6,32 @@
 
 <template>
   <div class="tile">
-    <h1 class="tile-heading">{{ name }}</h1>
+    <img class="tile-icon" :src="iconURL" />
     <hr class="separator" />
-    <h1 class="tile-text">{{ description }}</h1>
+    <h1 class="tile-heading">{{ name }}</h1>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["name", "description"],
+  props: ["name", "iconURL"],
 };
 </script>
 
 <style>
 .tile {
   background-color: white;
-  box-shadow: 1px 1px 1px 0px rgb(0, 0, 0, 0.1);
+  box-shadow: 0px 2px 3px 1px rgb(0, 0, 0, 0.4);
   border: 1px solid rgb(184, 184, 184);
-  border-radius: 5px;
-  width: 15rem;
-  height: 7rem;
+  border-radius: 2px;
+  width: 7rem;
+  height: 9.5rem;
   margin: 1.5rem;
-
   transition: box-shadow 0.2s linear;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .tile:hover {
@@ -41,18 +44,27 @@ export default {
   color: rgb(65, 65, 65);
 }
 
+.tile-icon {
+  height: 3rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.9rem;
+}
+
 .tile-heading {
-  margin: 0.2rem;
+  margin: 0.3rem;
   margin-left: 0.5rem;
-  margin-right: 2rem;
+  margin-right: 0.5rem;
   font-weight: 400;
-  font-size: 1rem;
-  color: rgb(100, 100, 100);
+  font-size: 0.85rem;
+  color: rgb(32, 32, 32);
 }
 
 .separator {
+  margin: 0px;
   border: none;
-  border-top: 1px solid rgb(185, 185, 185);
+  border-top: 1.5px solid rgb(212, 212, 212);
+  height: 1px;
+  width: 100%;
 }
 
 .tile-text {

@@ -27,7 +27,8 @@ export default {
 
 .sidebar-and-content-grid {
   margin-top: 3rem;
+  height: 100vh;
   display: grid;
-  grid-template-columns: 15rem calc(100vw - 15rem);
+  grid-template-columns: 16rem calc(100vw - 16rem);
 }
 </style>

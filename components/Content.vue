@@ -4,35 +4,90 @@
 -->
 <template>
   <div class="content">
-    <a
-      style="text-decoration:none"
-      v-for="tile in tilesToDisplay"
-      :key="tile.id"
-      :href="createURL(tile.baseURL)"
+    <div
+      class="category-container"
+      v-for="tileCategory in tileCategories"
+      :key="tileCategory.id"
     >
-      <Tile :name="tile.name" :description="tile.description" />
-    </a>
+      <h1>{{ tileCategory.name }}</h1>
+      <div class="tiles-container">
+        <a
+          style="text-decoration:none"
+          v-for="tile in tileCategory.tiles"
+          :key="tile.id"
+          :href="createURL(tile.baseURL)"
+        >
+          <Tile :name="tile.name" :iconURL="tile.iconURL" />
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   computed: {
-    tilesToDisplay() {
-      let state = this.$store.state;
-      let filter = state.searchFilter.toUpperCase();
-      let tiles = [];
-      if (filter.length) {
-        state.categories.forEach((category) => {
-          let filteredTiles = category.tiles.filter(
-            (tile) =>
-              tile.name.toUpperCase().includes(filter) ||
-              tile.description.toUpperCase().includes(filter)
-          );
-          tiles.push(...filteredTiles);
-        });
-      } else tiles = state.selectedCategory.tiles;
-      return tiles;
+    tileCategories() {
+      return [
+        {
+          id: "1",
+          name: "Recently Used",
+          tiles: [
+            {
+              name: "WorkDocs",
+              iconURL: require("~/assets/icons/tiles/google_docs.png"),
+            },
+            {
+              name: "Quip",
+              iconURL: require("~/assets/icons/tiles/quip.png"),
+            },
+            {
+              name: "Payroll",
+              iconURL: require("~/assets/icons/tiles/payroll.png"),
+            },
+          ],
+        },
+        {
+          id: "2",
+          name: "Work",
+          tiles: [
+            {
+              name: "Taminator",
+              iconURL: require("~/assets/icons/tiles/robot_arm.png"),
+            },
+            {
+              name: "Cost Explorer",
+              iconURL: require("~/assets/icons/tiles/cost_explorer.png"),
+            },
+            {
+              name: "Paragon",
+              iconURL: require("~/assets/icons/tiles/paragon.png"),
+            },
+            {
+              name: "Phone Tool",
+              iconURL: require("~/assets/icons/tiles/phone_tool.png"),
+            },
+          ],
+        },
+        {
+          id: "3",
+          name: "HR",
+          tiles: [
+            {
+              name: "Payroll",
+              iconURL: require("~/assets/icons/tiles/payroll.png"),
+            },
+            {
+              name: "Benefits",
+              iconURL: require("~/assets/icons/tiles/benefits.png"),
+            },
+            {
+              name: "TAM Wiki",
+              iconURL: require("~/assets/icons/tiles/wikipedia.png"),
+            },
+          ],
+        },
+      ];
     },
   },
   methods: {
@@ -53,7 +108,7 @@ export default {
 <style scoped>
 .content {
   margin-top: 0rem;
-  padding-top: 1.5rem;
+  padding-top: 3rem;
   padding-left: 1rem;
   display: flex;
   flex-wrap: wrap;
@@ -61,7 +116,25 @@ export default {
   justify-content: flex-start;
   align-content: flex-start;
   background-color: #f7f6f6;
-  height: calc(100vh - 4rem);
+  height: 100%;
+}
+
+.category-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.category-container > h1 {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: rgb(83, 83, 83);
+  margin: 0px;
+  margin-left: 1rem;
+}
+
+.tiles-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 30rem) {
