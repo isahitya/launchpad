@@ -1,3 +1,9 @@
+<!--
+Component will generate : 
+  - Hero section 
+  - Tabs 
+-->
+
 <template>
   <header class="app-header">
     <div class="hero">
@@ -14,9 +20,6 @@
   </header>
 </template>
 
-<script>
-export default {};
-</script>
 
 <style>
 .app-header {

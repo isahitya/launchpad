@@ -1,21 +1,21 @@
 <!--
 <Content> component will generate:
-  - <Tile> component for tiles of the selected category
+  - Groups of <Tile> component for tiles of (the selected category) or (tiles that include search filter from all categories)
 -->
 <template>
   <div class="content">
     <div
-      class="category-container"
-      v-for="tileCategory in tileCategories"
-      :key="tileCategory.id"
+      class="tile-group-container"
+      v-for="(tileGroupTiles, tileGroupName) in tilesToDisplay"
+      :key="tileGroupName"
     >
-      <h1>{{ tileCategory.name }}</h1>
+      <h1>{{ tileGroupName }}</h1>
       <div class="tiles-container">
         <a
           style="text-decoration:none"
-          v-for="tile in tileCategory.tiles"
+          v-for="tile in tileGroupTiles"
           :key="tile.id"
-          :href="createURL(tile.baseURL)"
+          :href="tile.tileURL"
         >
           <Tile :name="tile.name" :iconURL="tile.iconURL" />
         </a>
@@ -27,79 +27,33 @@
 <script>
 export default {
   computed: {
-    tileCategories() {
-      return [
-        {
-          id: "1",
-          name: "Recently Used",
-          tiles: [
-            {
-              name: "WorkDocs",
-              iconURL: require("~/assets/icons/tiles/google_docs.png"),
-            },
-            {
-              name: "Quip",
-              iconURL: require("~/assets/icons/tiles/quip.png"),
-            },
-            {
-              name: "Payroll",
-              iconURL: require("~/assets/icons/tiles/payroll.png"),
-            },
-          ],
-        },
-        {
-          id: "2",
-          name: "Work",
-          tiles: [
-            {
-              name: "Taminator",
-              iconURL: require("~/assets/icons/tiles/robot_arm.png"),
-            },
-            {
-              name: "Cost Explorer",
-              iconURL: require("~/assets/icons/tiles/cost_explorer.png"),
-            },
-            {
-              name: "Paragon",
-              iconURL: require("~/assets/icons/tiles/paragon.png"),
-            },
-            {
-              name: "Phone Tool",
-              iconURL: require("~/assets/icons/tiles/phone_tool.png"),
-            },
-          ],
-        },
-        {
-          id: "3",
-          name: "HR",
-          tiles: [
-            {
-              name: "Payroll",
-              iconURL: require("~/assets/icons/tiles/payroll.png"),
-            },
-            {
-              name: "Benefits",
-              iconURL: require("~/assets/icons/tiles/benefits.png"),
-            },
-            {
-              name: "TAM Wiki",
-              iconURL: require("~/assets/icons/tiles/wikipedia.png"),
-            },
-          ],
-        },
-      ];
+    tilesToDisplay() {
+      const filter = this.$store.state.searchFilter.toUpperCase();
+      if (filter.length == 0) {
+        return this.$store.state.selectedCategory.tiles;
+      }
+      let tiles = {};
+      this.$store.state.categories.forEach((category) => {
+        tiles = { ...tiles, ...this.filterTiles(category.tiles, filter) };
+      });
+      return tiles;
     },
   },
   methods: {
-    createURL(baseURL) {
-      return (
-        baseURL +
-        "?" +
-        "accountId=" +
-        this.$store.state.accountNumber +
-        "&region=" +
-        this.$store.state.selectedRegion.code
-      );
+    filterTiles(tiles, filter) {
+      let tileGroups = {};
+      for (const [key, value] of Object.entries(tiles)) {
+        let filteredTiles = value.filter((element) => {
+          return (
+            element.name.toUpperCase().includes(filter) ||
+            element.description.toUpperCase().includes(filter)
+          );
+        });
+        if (filteredTiles.length) {
+          tileGroups[key] = filteredTiles;
+        }
+      }
+      return tileGroups;
     },
   },
 };
@@ -107,7 +61,8 @@ export default {
 
 <style scoped>
 .content {
-  margin-top: 0rem;
+  margin-top: 3rem;
+  margin-left: 16rem;
   padding-top: 3rem;
   padding-left: 1rem;
   display: flex;
@@ -117,14 +72,16 @@ export default {
   align-content: flex-start;
   background-color: #f7f6f6;
   height: 100%;
+  width: calc(100vw - 16rem);
+  min-height: 100vh;
 }
 
-.category-container {
+.tile-group-container {
   width: 100%;
   margin-bottom: 1.5rem;
 }
 
-.category-container > h1 {
+.tile-group-container > h1 {
   font-size: 0.8rem;
   font-weight: 400;
   color: rgb(83, 83, 83);

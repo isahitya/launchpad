@@ -33,7 +33,7 @@ export default {
   align-items: center;
 }
 .sidebar-item:hover {
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(235, 235, 235);
 }
 
 .sidebar-item-icon {

@@ -6,10 +6,8 @@
 <template>
   <div class="container">
     <Navbar />
-    <div class="sidebar-and-content-grid">
-      <Sidebar />
-      <Content />
-    </div>
+    <Sidebar />
+    <Content />
   </div>
 </template>
 
@@ -23,12 +21,5 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-}
-
-.sidebar-and-content-grid {
-  margin-top: 3rem;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 16rem calc(100vw - 16rem);
 }
 </style>

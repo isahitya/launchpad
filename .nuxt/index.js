@@ -13,7 +13,7 @@ import { createStore } from './store.js'
 /* Plugins */
 
 import nuxt_plugin_plugin_fe498ba4 from 'nuxt_plugin_plugin_fe498ba4' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_categoriesdata_24a66952 from 'nuxt_plugin_categoriesdata_24a66952' // Source: ../plugins/categories-data.js (mode: 'all')
+import nuxt_plugin_getCategories_6c259a1b from 'nuxt_plugin_getCategories_6c259a1b' // Source: ../plugins/getCategories.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -193,8 +193,8 @@ async function createApp(ssrContext, config = {}) {
     await nuxt_plugin_plugin_fe498ba4(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_categoriesdata_24a66952 === 'function') {
-    await nuxt_plugin_categoriesdata_24a66952(app.context, inject)
+  if (typeof nuxt_plugin_getCategories_6c259a1b === 'function') {
+    await nuxt_plugin_getCategories_6c259a1b(app.context, inject)
   }
 
   // Lock enablePreview in context

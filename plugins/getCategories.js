@@ -1,10 +1,10 @@
 import AWS from "aws-sdk";
 
-async function getCategoryData() {
+async function getCategories() {
   AWS.config.update({
     region: "us-east-1",
     endpoint: "dynamodb.us-east-1.amazonaws.com",
-    accessKeyId: "AKIAWNLQ4NOMJEMUXBFL",
+    accessKeyId: "AKIAWNLQSS4NOMJEMUXBFL",
     secretAccessKey: "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",
   });
 
@@ -18,5 +18,5 @@ async function getCategoryData() {
 }
 
 export default (context, inject) => {
-  inject("getCategoryData", getCategoryData);
+  inject("getCategories", getCategories);
 };

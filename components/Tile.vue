@@ -1,6 +1,6 @@
 <!--
 <Tile> component will generate-
-  - Heading of the tile, separator and tile text
+  - Heading of the tile, separator and icon.
   - Styling: Shadow for the tile, hover effect.
 -->
 

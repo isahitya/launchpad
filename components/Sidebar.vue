@@ -1,5 +1,7 @@
 <!--
 <Sidebar> component will generate:
+  - User profile card
+  - Search input field
   - <SidebarItem> for each of the categories
   - A slider(vertical line) displayed next to the selected category item
 -->
@@ -11,41 +13,39 @@
       <h1 class="welcome-heading">Welcome Harshit</h1>
       <div class="search">
         <img class="search-icon" src="~/assets/icons/search.png" />
-        <input class="search-input" type="text" placeholder="Search" />
+        <input
+          class="search-input"
+          type="text"
+          placeholder="Search"
+          v-model="searchFilter"
+        />
       </div>
     </div>
 
     <SidebarItem
-      v-for="item in sidebarItems"
+      v-for="item in categories"
       :key="item.id"
-      :text="item.text"
+      :text="item.name"
       :iconURL="item.iconURL"
-      :highlight="item.id == 1"
+      :highlight="item.id == selectedCategory.id"
       @click.native="sidebarItemSelected(item.id)"
       :ref="item.id"
     />
+    <div class="slider" ref="slider"></div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      sidebarItems: [
-        {
-          id: "1",
-          text: "K2 Scripts",
-          iconURL: require("~/assets/icons/tag_icon.png"),
-        },
-        {
-          id: "2",
-          text: "Application",
-          iconURL: require("~/assets/icons/apps.png"),
-        },
-      ],
-    };
-  },
   computed: {
+    searchFilter: {
+      get() {
+        return this.$store.state.searchFilter;
+      },
+      set(value) {
+        this.$store.dispatch("setSearchFilter", value);
+      },
+    },
     categories() {
       return this.$store.state.categories;
     },
@@ -53,16 +53,20 @@ export default {
       return this.$store.state.selectedCategory;
     },
   },
-
+  mounted() {
+    this.moveSlider(this.$store.state.selectedCategory.id);
+  },
   methods: {
-    sidebarItemSelected() {
-      moveSlider(itemId);
+    sidebarItemSelected(itemId) {
+      this.$store.dispatch("setSearchFilter", "");
+      this.$store.dispatch("setSelectedCategory", itemId);
+      this.moveSlider(itemId);
     },
     moveSlider(itemId) {
       let sidebarItemRect = this.$refs[itemId][0].$el.getBoundingClientRect();
       let sidebarRect = this.$el.getBoundingClientRect();
       let sliderNewY = sidebarItemRect.y - sidebarRect.y;
-      this.$refs.slider.style.top = `${sliderNewY + 8}px`;
+      this.$refs.slider.style.top = `${sliderNewY}px`;
     },
   },
 };
@@ -72,7 +76,9 @@ export default {
 .sidebar {
   margin-top: 0rem;
   display: flex;
-  position: relative;
+  position: fixed;
+  width: 16rem;
+  height: 100%;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -138,14 +144,13 @@ export default {
 }
 
 .slider {
-  display: none;
   position: absolute;
-  background-color: rgb(77, 77, 77);
-  width: 2px;
-  height: 1.5rem;
-  top: 2rem;
-  transition: all 0.25s ease-in-out;
-  margin-left: 3rem;
+  background-color: #252f3d;
+  width: 0.5rem;
+  height: 3rem;
+  left: 0rem;
+  transition: all 0.15s ease-in-out;
+  margin: 0px;
 }
 
 @media (max-width: 30rem) {
