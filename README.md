@@ -7,6 +7,9 @@
 ## Installation 
 
 ``` bash
+# clone the alphadesign branch (where the latest development is)
+git clone -b alphadesign https://github.com/isahitya/launchpad.git
+
 # install dependencies
 npm install
 
