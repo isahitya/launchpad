@@ -28,12 +28,12 @@
 export default {
   computed: {
     tilesToDisplay() {
-      const filter = this.$store.state.searchFilter.toUpperCase();
+      const filter = this.$store.state.appLogic.searchFilter.toUpperCase();
       if (filter.length == 0) {
-        return this.$store.state.selectedCategory.tiles;
+        return this.$store.state.appLogic.selectedCategory.tiles;
       }
       let tiles = {};
-      this.$store.state.categories.forEach((category) => {
+      this.$store.state.appLogic.categories.forEach((category) => {
         tiles = { ...tiles, ...this.filterTiles(category.tiles, filter) };
       });
       return tiles;

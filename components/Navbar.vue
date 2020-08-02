@@ -28,12 +28,12 @@ Component will generate :
   top: 0px;
   width: 100vw;
   position: fixed;
-  box-shadow: 2px 1px 5px 3px rgb(0, 0, 0, 0.25);
+   box-shadow: 2px 1px 5px 3px rgb(0, 0, 0, 0.25); 
   height: 3rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  background-color: white;
+  background-color: #F7F6F6;
 }
 
 .hero {

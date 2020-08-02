@@ -40,21 +40,21 @@ export default {
   computed: {
     searchFilter: {
       get() {
-        return this.$store.state.searchFilter;
+        return this.$store.state.appLogic.searchFilter;
       },
       set(value) {
         this.$store.dispatch("setSearchFilter", value);
       },
     },
     categories() {
-      return this.$store.state.categories;
+      return this.$store.state.appLogic.categories;
     },
     selectedCategory() {
-      return this.$store.state.selectedCategory;
+      return this.$store.state.appLogic.selectedCategory;
     },
   },
   mounted() {
-    this.moveSlider(this.$store.state.selectedCategory.id);
+    this.moveSlider(this.$store.state.appLogic.selectedCategory.id);
   },
   methods: {
     sidebarItemSelected(itemId) {
@@ -88,7 +88,7 @@ export default {
 
 .profile {
   margin: 0px;
-  background: #232f3e;
+  background-color: #232f3e;
   height: 19rem;
   width: 100%;
   display: flex;

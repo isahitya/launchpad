@@ -20,9 +20,11 @@ export default {
 
 <style>
 .tile {
-  background-color: white;
-  box-shadow: 0px 2px 3px 1px rgb(0, 0, 0, 0.4);
+  /* background-color: white;
+  box-shadow: 0px 2px 3px 1px rgb(0, 0, 0, 0.4); 
   border: 1px solid rgb(184, 184, 184);
+  */
+
   border-radius: 2px;
   width: 7rem;
   height: 9.5rem;
@@ -32,12 +34,18 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  transition: all 0.25s ease;
+  border-radius: 10px;
+  background: linear-gradient(315deg, #dedddd, #ffffff);
+  box-shadow: -8px -8px 13px #c1c0c0, 8px 8px 13px #ffffff;
 }
 
 .tile:hover {
   cursor: pointer;
-  box-shadow: 0px 2px 4px 3px rgb(0, 0, 0, 0.5);
+  /* box-shadow: 0px 2px 4px 3px rgb(0, 0, 0, 0.5); */
   border-color: #f58435;
+
+  transform: scale(1.1);
 }
 
 .tile:hover .tile-heading {
