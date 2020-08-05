@@ -5,6 +5,12 @@
   "LazyContent": {
     "description": "Auto imported from components/Content.vue"
   },
+  "CreateDialog": {
+    "description": "Auto imported from components/CreateDialog.vue"
+  },
+  "LazyCreateDialog": {
+    "description": "Auto imported from components/CreateDialog.vue"
+  },
   "Navbar": {
     "description": "Auto imported from components/Navbar.vue"
   },

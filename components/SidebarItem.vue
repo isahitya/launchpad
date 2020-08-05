@@ -33,7 +33,7 @@ export default {
   cursor: pointer;
 }
 .sidebar-item:hover {
-  background-color: rgb(235, 235, 235);
+  background-color: #457b9d;
 }
 
 .sidebar-item-icon {
@@ -43,7 +43,8 @@ export default {
 
 .sidebar-item h1 {
   vertical-align: middle;
-  margin-left: 3rem !important;
+  margin-left: 3.5rem !important;
+  color: #000000;
   /* font-weight: 500;
   font-size: 1rem;
   color: rgb(31, 30, 30); */
@@ -51,10 +52,14 @@ export default {
 
 .sidebar-item h1:hover {
   cursor: pointer;
-  color: black;
+  color: #161616;
+}
+
+.highlighted {
+  background-color: #5c677d;
 }
 
 .highlighted-item h1 {
-  font-weight: 500;
+  font-weight: 400;
 }
 </style>

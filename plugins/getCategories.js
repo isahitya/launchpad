@@ -30,17 +30,17 @@ function createCategory(name, iconURL) {
 
 let tileCounter = 1;
 
-function createTile(name, iconURL) {
+function createTile(name, iconURL, tileURL = "") {
   return {
     id: "t_" + tileCounter++,
     name: name,
     description: "",
     iconURL: iconURL,
-    tileURL: "",
+    tileURL: tileURL,
   };
 }
 
-let baseTileURL = "https://launchpad-aws.s3.amazonaws.com/icons/tiles/";
+let baseTileURL = "/tiles/";
 let baseCategoryURL = "https://launchpad-aws.s3.amazonaws.com/icons/";
 
 function getIconURL(iconName) {
@@ -55,7 +55,11 @@ async function getCategories() {
   );
   let applicationTiles = {
     Work: [
-      createTile("Taminator", getIconURL("robot_arm.png")),
+      createTile(
+        "Taminator",
+        getIconURL("robot_arm.png"),
+        "https://taminator.aws.com"
+      ),
       createTile("Cost Explorer", getIconURL("cost_explorer.png")),
       createTile("Paragon", getIconURL("paragon.png")),
       createTile("Phone Tool", getIconURL("phone_tool.png")),

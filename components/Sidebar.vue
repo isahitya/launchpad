@@ -8,26 +8,13 @@
 
 <template>
   <div class="sidebar">
-    <div class="profile">
-      <div class="hero">
-        <h1>Launchpad</h1>
-        <img src="~/assets/icons/rocket_icon.png" />
-      </div>
-      <img class="profile-image" src="~/assets/profile_image.jpeg" />
-      <h1 class="welcome-headline ">Welcome Harshit</h1>
-      <h1 class="welcome-subheading">Seize the day!</h1>
-    </div>
-
     <div class="sidebar-items-container">
-      <div class="sidebar-items-container-heading">
-        <h1>Categories</h1>
-        <img
-          class="create-button"
-          src="~/assets/icons/add.png"
-          @click="createButtonClicked()"
-        />
+      <div class="my-apps-container">
+        <i class="fa fa-home fa-2x home-icon" aria-hidden="true"></i>
+        <h1>My Apps</h1>
       </div>
-      <hr />
+      <div class="sidebar-items-container-heading"></div>
+
       <SidebarItem
         v-for="item in categories"
         :key="item.id"
@@ -86,7 +73,8 @@ export default {
 
 <style>
 .sidebar {
-  margin-top: 0rem;
+  margin-top: 3.7rem;
+  padding-top: 1rem;
   top: 0rem;
   display: flex;
   position: fixed;
@@ -96,7 +84,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   background-color: #ffffff;
-  box-shadow: 1.5px 2px 2px 1px rgb(0, 0, 0, 0.2);
+  /* box-shadow: 1.5px 2px 2px 1px rgb(0, 0, 0, 0.2); */
 }
 
 .profile {
@@ -112,38 +100,20 @@ export default {
   background: #e0f1ff;
 }
 
-.hero {
-  height: 3rem;
+.my-apps-container {
   display: flex;
-  align-items: flex-end;
-  margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.hero h1 {
-  font-family: Roboto;
-  font-style: italic;
-  font-weight: bold;
-  font-size: 1.25rem;
-  line-height: 33px;
-  /* identical to box height */
-  color: #333333;
-  margin: 0rem;
   margin-right: 0.5rem;
 }
 
-.hero img {
-  height: 2rem;
-  margin-top: 0.25rem;
-  align-self: flex-start;
+.my-apps-container h1 {
+  margin-left: 1rem;
 }
 
-.profile-image {
-  filter: drop-shadow(4px 6px 4px rgba(0, 0, 0, 0.3));
-  width: 7rem;
-  border-radius: 50%;
-  margin-top: 0rem;
-  margin-bottom: 0.5rem;
+.my-apps-container i {
+  opacity: 0.9;
+  margin-left: 1rem;
+  margin-top: 0.4rem;
+  vertical-align: middle !important;
 }
 
 .welcome-headline {
@@ -170,17 +140,24 @@ export default {
   z-index: 100;
   width: 100%;
   height: calc(100vh - 18rem);
-  box-shadow: 0px -1.5px 4px rgba(0, 0, 0, 0.25);
+  /* box-shadow: 0px -1.5px 4px rgba(0, 0, 0, 0.25); */
 }
 
 .create-button {
   cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s linear;
+}
+
+.create-button:hover {
+  background: rgb(212, 212, 212);
 }
 
 .sidebar-items-container-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: #ffffff;
 }
 
 .sidebar-items-container-heading img {
@@ -209,12 +186,14 @@ export default {
 }
 
 .slider {
+  display: none;
+  opacity: 0.7;
   position: absolute;
   z-index: 100;
   width: 2rem;
   height: 3rem;
   left: 1rem;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
   margin: 0px;
 }
 

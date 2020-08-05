@@ -5,8 +5,11 @@
 -->
 
 <template>
-  <div class="tile md-elevation-15">
-    <img class="tile-icon" :src="iconURL" />
+  <div class="tile md-elevation-5">
+    <img
+      class="tile-icon"
+      :src="iconURL.length != 0 ? iconURL : defaultIconURL"
+    />
     <hr class="separator" />
     <h1 class="tile-heading">{{ name }}</h1>
   </div>
@@ -15,6 +18,11 @@
 <script>
 export default {
   props: ["name", "iconURL"],
+  data() {
+    return {
+      defaultIconURL: "/tiles/default_icon.png",
+    };
+  },
 };
 </script>
 
