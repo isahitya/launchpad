@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div class="tile">
+  <div class="tile md-elevation-15">
     <img class="tile-icon" :src="iconURL" />
     <hr class="separator" />
     <h1 class="tile-heading">{{ name }}</h1>
@@ -35,9 +35,6 @@ export default {
   justify-content: flex-start;
   align-items: center;
   transition: all 0.25s ease;
-  border-radius: 10px;
-  background: linear-gradient(315deg, #dedddd, #ffffff);
-  box-shadow: -8px -8px 13px #c1c0c0, 8px 8px 13px #ffffff;
 }
 
 .tile:hover {
@@ -53,7 +50,7 @@ export default {
 }
 
 .tile-icon {
-  height: 3rem;
+  height: 3rem !important;
   margin-top: 2.5rem;
   margin-bottom: 1.9rem;
 }

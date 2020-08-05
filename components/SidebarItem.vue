@@ -11,7 +11,6 @@
       'highlighted-item': highlight == true,
     }"
   >
-    <img class="sidebar-item-icon" :src="iconURL" />
     <h1>{{ text }}</h1>
   </div>
 </template>
@@ -24,13 +23,14 @@ export default {
 
 <style>
 .sidebar-item {
-  margin-bottom: 0.4rem;
-  height: 3rem;
+  margin-bottom: 0.5rem;
+  height: 2.5rem;
   width: 100%;
   transition: background-color 0.2s linear;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  cursor: pointer;
 }
 .sidebar-item:hover {
   background-color: rgb(235, 235, 235);
@@ -43,10 +43,10 @@ export default {
 
 .sidebar-item h1 {
   vertical-align: middle;
-  margin-left: 1.5rem;
-  font-weight: 500;
+  margin-left: 3rem !important;
+  /* font-weight: 500;
   font-size: 1rem;
-  color: rgb(31, 30, 30);
+  color: rgb(31, 30, 30); */
 }
 
 .sidebar-item h1:hover {

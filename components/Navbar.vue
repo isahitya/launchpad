@@ -5,35 +5,21 @@ Component will generate :
 -->
 
 <template>
-  <header class="app-header">
+  <md-toolbar class="app-header md-dense  ">
     <div class="hero">
         <img src = "~/assets/icons/rocket.png"></img>
       <h1>LaunchPad</h1>
     </div>
-    <div class = "tabs">
-        <h1>Home</h1>
-        <div class = "vertical-separator"></div>
-        <h1>Work</h1>
-        <div class = "vertical-separator"></div>
-        <h1>HR</h1>
-    </div>
-  </header>
+    
+  </md-toolbar>
 </template>
 
 
 <style>
+
 .app-header {
-  margin: 0px;
-  z-index: 100;
-  top: 0px;
-  width: 100vw;
-  position: fixed;
-   box-shadow: 2px 1px 5px 3px rgb(0, 0, 0, 0.25); 
-  height: 3rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #F7F6F6;
+  position:fixed;
+  top:0px;
 }
 
 .hero {

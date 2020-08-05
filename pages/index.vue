@@ -5,7 +5,6 @@
 
 <template>
   <div class="container">
-    <Navbar />
     <Sidebar />
     <Content />
   </div>

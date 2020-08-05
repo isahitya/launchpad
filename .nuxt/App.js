@@ -5,6 +5,10 @@ import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch,
 import NuxtLoading from './components/nuxt-loading.vue'
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
+import '../node_modules/vue-material/dist/vue-material.min.css'
+
+import '../node_modules/vue-material/dist/theme/default.css'
+
 import '../assets/main.css'
 
 import _6f6c098b from '../layouts/default.vue'
