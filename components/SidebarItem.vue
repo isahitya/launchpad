@@ -8,7 +8,7 @@
   <div
     :class="{
       'sidebar-item': true,
-      'highlighted-item': highlight == true,
+      'selected-item': highlight == true,
     }"
   >
     <h1>{{ text }}</h1>
@@ -31,9 +31,10 @@ export default {
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
+  transition: ease-in-out, all 0.2s ease-in-out;
 }
 .sidebar-item:hover {
-  background-color: #457b9d;
+  background-color: #dadada;
 }
 
 .sidebar-item-icon {
@@ -52,14 +53,14 @@ export default {
 
 .sidebar-item h1:hover {
   cursor: pointer;
-  color: #161616;
 }
 
-.highlighted {
-  background-color: #5c677d;
+.selected-item {
+  background-color: #457b9d !important;
 }
 
-.highlighted-item h1 {
+.selected-item h1 {
   font-weight: 400;
+  color: white;
 }
 </style>

@@ -2,6 +2,7 @@ export default {
   async nuxtServerInit(vuexContext, context) {
     try {
       let response = await this.$getCategories();
+
       vuexContext.commit("initializeAppData", response.Items);
     } catch (err) {
       console.log("Cannot load data from server");

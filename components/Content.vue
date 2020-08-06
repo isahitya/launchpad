@@ -3,7 +3,7 @@
   - Groups of <Tile> component for tiles of (the selected category) or (tiles that include search filter from all categories)
 -->
 <template>
-  <div class="content">
+  <div class="content" ref="content">
     <CreateDialog />
     <div
       class="tile-group-container"
@@ -27,6 +27,9 @@
 
 <script>
 export default {
+  created() {
+    this.$nuxt.$on("hamburger-button-click", this.toggleContentPosition);
+  },
   computed: {
     tilesToDisplay() {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();
@@ -56,6 +59,13 @@ export default {
       }
       return tileGroups;
     },
+    toggleContentPosition() {
+      if (this.$refs.content.style.marginLeft != "0rem") {
+        this.$refs.content.style.marginLeft = "0rem";
+      } else {
+        this.$refs.content.style.marginLeft = "16rem";
+      }
+    },
   },
 };
 </script>
@@ -73,9 +83,9 @@ export default {
   justify-content: flex-start;
   align-content: flex-start;
   background-color: #f9f9f9;
-  height: 100%;
   width: calc(100vw - 16rem);
-  min-height: 100vh;
+  min-height: calc(100vh - 5.7rem);
+  transition: ease-in-out, all 0.3s ease-in-out;
 }
 
 .search-input-container {

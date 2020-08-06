@@ -9,6 +9,7 @@ Component will generate :
     <img
       class="hamburger-menu-icon"
       src="~/assets/icons/hamburger_menu_icon.png"
+      @click="hamburgerButtonClick()"
     />
     <div class="hero">
       <img src="~/assets/icons/large_launchio.png" />
@@ -26,7 +27,11 @@ Component will generate :
         @focus="searchInputFocus"
         @blur="searchInputBlur"
       />
-      <div class="close-icon" ref="searchCloseIcon"></div>
+      <div
+        class="close-icon"
+        ref="searchCloseIcon"
+        @click="closeButtonClick($event)"
+      ></div>
     </div>
     <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
     <img class="profile-image " src="~/assets/profile_image.jpeg" />
@@ -50,12 +55,16 @@ export default {
       this.$refs.searchCloseIcon.style.visibility = "visible";
       this.$refs.searchCloseIcon.style.transform = "rotate(90deg)";
     },
-    searchInputBlur() {
+    searchInputBlur(event) {
       this.$refs.searchCloseIcon.style.visibility = "hidden";
       this.$refs.searchCloseIcon.style.transform = "rotate(0deg)";
     },
-    closeButtonClick() {
+    closeButtonClick(event) {
+      //TODO: prevent search input blur
       this.$store.dispatch("setSearchFilter", "");
+    },
+    hamburgerButtonClick() {
+      $nuxt.$emit("hamburger-button-click");
     },
   },
 };
@@ -73,10 +82,11 @@ export default {
   box-shadow: none;
   background-color: #ffffff;
   width: 100%;
-  border-bottom: 1px solid rgb(202, 202, 202);
+  border-bottom: 1px solid rgb(218, 218, 218);
 }
 
 .hamburger-menu-icon {
+  cursor: pointer;
   height: 1.75rem !important;
   margin-left: 1rem;
   opacity: 0.85;

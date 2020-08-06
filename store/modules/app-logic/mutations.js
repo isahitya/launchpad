@@ -1,6 +1,5 @@
 export default {
   setSearchFilter(state, searchFilter) {
-    console.log(searchFilter);
     state.searchFilter = searchFilter;
   },
   setSelectedCategory(state, categoryId) {

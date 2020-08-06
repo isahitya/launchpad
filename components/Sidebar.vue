@@ -7,14 +7,21 @@
 -->
 
 <template>
-  <div class="sidebar">
-    <div class="sidebar-items-container">
-      <div class="my-apps-container">
+  <div class="sidebar" ref="sidebar">
+    <div
+      :class="{
+        'sidebar-items-container': true,
+        'hide-sidebar-items': hideSidebarItems,
+      }"
+    >
+      <div class="my-apps-container" @click="toggleSidebarItems()">
         <i class="fa fa-home fa-2x home-icon" aria-hidden="true"></i>
         <h1>My Apps</h1>
+        <i
+          class="fa fa-angle-left fa-2x arrow-icon"
+          :class="{ 'rotate-arrow-icon': !hideSidebarItems }"
+        ></i>
       </div>
-      <div class="sidebar-items-container-heading"></div>
-
       <SidebarItem
         v-for="item in categories"
         :key="item.id"
@@ -33,6 +40,14 @@
 
 <script>
 export default {
+  created() {
+    this.$nuxt.$on("hamburger-button-click", this.toggleSidebar);
+  },
+  data() {
+    return {
+      hideSidebarItems: false,
+    };
+  },
   computed: {
     searchFilter: {
       get() {
@@ -67,6 +82,18 @@ export default {
       let sliderNewY = sidebarItemRect.y - sidebarRect.y;
       this.$refs.slider.style.top = `${sliderNewY}px`;
     },
+    toggleSidebar() {
+      if (this.$refs.sidebar.style.visibility == "hidden") {
+        this.$refs.sidebar.style.visibility = "visible";
+        this.$refs.sidebar.style.marginLeft = "0rem";
+      } else {
+        this.$refs.sidebar.style.marginLeft = "-16rem";
+        this.$refs.sidebar.style.visibility = "hidden";
+      }
+    },
+    toggleSidebarItems() {
+      this.hideSidebarItems = !this.hideSidebarItems;
+    },
   },
 };
 </script>
@@ -84,36 +111,34 @@ export default {
   justify-content: flex-start;
   align-items: center;
   background-color: #ffffff;
+  visibility: visible;
+  transition: ease-in-out, all 0.3s ease-in-out;
   /* box-shadow: 1.5px 2px 2px 1px rgb(0, 0, 0, 0.2); */
-}
-
-.profile {
-  position: relative;
-  overflow: hidden;
-  margin: 0px;
-  height: 22rem;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  background: #e0f1ff;
 }
 
 .my-apps-container {
   display: flex;
   margin-right: 0.5rem;
+  cursor: pointer;
 }
 
 .my-apps-container h1 {
   margin-left: 1rem;
 }
 
-.my-apps-container i {
+.home-icon {
   opacity: 0.9;
   margin-left: 1rem;
   margin-top: 0.4rem;
   vertical-align: middle !important;
+}
+
+.arrow-icon {
+  margin-left: auto !important;
+  margin-top: 0.4rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+  transition: ease-in-out, all 0.2s ease-in-out;
 }
 
 .welcome-headline {
@@ -141,6 +166,17 @@ export default {
   width: 100%;
   height: calc(100vh - 18rem);
   /* box-shadow: 0px -1.5px 4px rgba(0, 0, 0, 0.25); */
+}
+
+.rotate-arrow-icon {
+  transform: rotate(-90deg);
+}
+
+.hide-sidebar-items .sidebar-item {
+  /*sidebar-item class is in SidebarItem component*/
+  opacity: 0;
+  height: 0rem;
+  visibility: hidden;
 }
 
 .create-button {
