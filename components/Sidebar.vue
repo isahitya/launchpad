@@ -7,31 +7,67 @@
 -->
 
 <template>
-  <div class="sidebar" ref="sidebar">
-    <div
-      :class="{
-        'sidebar-items-container': true,
-        'hide-sidebar-items': hideSidebarItems,
-      }"
-    >
-      <div class="my-apps-container" @click="toggleSidebarItems()">
-        <i class="fa fa-home fa-2x home-icon" aria-hidden="true"></i>
-        <h1>My Apps</h1>
+  <div class="sidebar unselectable" ref="sidebar">
+    <div class="sidebar-items-container">
+      <div class="sidebar-heading-container " @click="toggleSidebarAppsItems()">
+        <!-- <i class="fa fa-home fa-2x " aria-hidden="true"></i> -->
         <i
           class="fa fa-angle-left fa-2x arrow-icon"
-          :class="{ 'rotate-arrow-icon': !hideSidebarItems }"
+          :class="{ 'rotate-arrow-icon': !myAppsOpen }"
         ></i>
+        <h1>My Apps</h1>
+        <img
+          class="add-icon"
+          src="https://img.icons8.com/android/48/000000/plus.png"
+          @click="createButtonClicked()"
+        />
       </div>
-      <SidebarItem
-        v-for="item in categories"
-        :key="item.id"
-        :text="item.name"
-        :iconURL="item.iconURL"
-        :highlight="item.id == selectedCategory.id"
-        @click.native="sidebarItemSelected(item.id)"
-        :ref="item.id"
-      />
+      <div
+        :class="{
+          'hide-sidebar-items': myAppsOpen,
+        }"
+      >
+        <SidebarItem
+          text="Home"
+          iconURL="/home.png"
+          :highlight="homeSectionSelected == true"
+          @click.native="homeSectionClicked()"
+        />
+        <SidebarItem
+          v-for="item in categories"
+          :key="item.id"
+          :text="item.name"
+          :iconURL="item.iconURL"
+          :highlight="item.id == selectedCategory.id"
+          :tileCount="getTileCount(item.id)"
+          @click.native="sidebarItemSelected(item.id)"
+          :ref="item.id"
+        />
+      </div>
+      <div class="sidebar-separator"></div>
+      <div
+        class="sidebar-heading-container "
+        @click="toggleSidebarK2ScriptsItems()"
+      >
+        <!-- <i class="fa fa-home fa-2x " aria-hidden="true"></i> -->
+        <i
+          class="fa fa-angle-left fa-2x arrow-icon"
+          :class="{ 'rotate-arrow-icon': k2ScriptsOpen }"
+        ></i>
+        <h1>K2 Scripts</h1>
+        <img
+          class="add-icon"
+          src="https://img.icons8.com/android/48/000000/plus.png"
+          @click="createButtonClicked()"
+        />
+      </div>
+      <div
+        :class="{
+          'hide-sidebar-items': myAppsOpen,
+        }"
+      ></div>
     </div>
+
     <div class="slider" ref="slider">
       <img src="~/assets/icons/arrow.png" />
     </div>
@@ -45,10 +81,14 @@ export default {
   },
   data() {
     return {
-      hideSidebarItems: false,
+      myAppsOpen: true,
+      k2ScriptsOpen: true,
     };
   },
   computed: {
+    homeSectionSelected() {
+      return this.$store.state.appLogic.homeSectionSelected;
+    },
     searchFilter: {
       get() {
         return this.$store.state.appLogic.searchFilter;
@@ -65,10 +105,22 @@ export default {
     },
   },
   mounted() {
-    this.moveSlider(this.$store.state.appLogic.selectedCategory.id);
+    //this.moveSlider(this.$store.state.appLogic.selectedCategory._id);
   },
   methods: {
+    getTileCount(categoryId) {
+      let category = this.$store.state.appLogic.categories.find(
+        (c) => c.id == categoryId
+      );
+      return category ? category.tiles.length : 0;
+    },
+    homeSectionClicked() {
+      this.$store.state.appLogic.homeSectionSelected = true;
+      this.$store.dispatch("setSearchFilter", "");
+      this.$store.dispatch("setSelectedCategory", null);
+    },
     sidebarItemSelected(itemId) {
+      this.$store.state.appLogic.homeSectionSelected = false;
       this.$store.dispatch("setSearchFilter", "");
       this.$store.dispatch("setSelectedCategory", itemId);
       this.moveSlider(itemId);
@@ -83,6 +135,10 @@ export default {
       this.$refs.slider.style.top = `${sliderNewY}px`;
     },
     toggleSidebar() {
+      if (!this.$refs.sidebar) {
+        console.log("Fix this case");
+        return;
+      }
       if (this.$refs.sidebar.style.visibility == "hidden") {
         this.$refs.sidebar.style.visibility = "visible";
         this.$refs.sidebar.style.marginLeft = "0rem";
@@ -91,8 +147,11 @@ export default {
         this.$refs.sidebar.style.visibility = "hidden";
       }
     },
-    toggleSidebarItems() {
-      this.hideSidebarItems = !this.hideSidebarItems;
+    toggleSidebarAppsItems() {
+      this.myAppsOpen = !this.myAppsOpen;
+    },
+    toggleSidebarK2ScriptsItems() {
+      this.k2ScriptsOpen = !this.k2ScriptsOpen;
     },
   },
 };
@@ -110,54 +169,61 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #ffffff;
+  background-color: #f5f5f5;
   visibility: visible;
   transition: ease-in-out, all 0.3s ease-in-out;
   /* box-shadow: 1.5px 2px 2px 1px rgb(0, 0, 0, 0.2); */
 }
 
-.my-apps-container {
+.sidebar-heading-container {
   display: flex;
+  align-items: center;
   margin-right: 0.5rem;
   cursor: pointer;
 }
 
-.my-apps-container h1 {
+.sidebar-heading-container h1 {
   margin-left: 1rem;
+  margin-right: auto;
 }
 
-.home-icon {
+.sidebar-heading-container i:first-child {
   opacity: 0.9;
+  margin-top: 0.1rem;
   margin-left: 1rem;
-  margin-top: 0.4rem;
+
   vertical-align: middle !important;
 }
 
+.sidebar-separator {
+  margin-top: 1rem;
+  height: 1px;
+  background-color: rgb(218, 218, 218);
+}
+
 .arrow-icon {
-  margin-left: auto !important;
+  margin-left: 1rem !important;
   margin-top: 0.4rem;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   cursor: pointer;
   transition: ease-in-out, all 0.2s ease-in-out;
+
+  transform: rotate(-180deg);
 }
 
-.welcome-headline {
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 1.25rem;
-  /* identical to box height */
-  color: #202020;
-  margin-top: 1.5rem;
-  margin-bottom: 0rem;
+.add-icon {
+  cursor: pointer;
+  border-radius: 50%;
+  opacity: 0.8;
+  transition: all 0.2s linear;
+  height: 1.45rem !important;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  padding: 0.1rem;
 }
 
-.welcome-subheading {
-  font-family: Roboto;
-  font-style: italic;
-  font-weight: normal;
-  font-size: 1rem;
-  color: #494949;
+.add-icon:hover {
+  background: rgb(212, 212, 212);
 }
 
 .sidebar-items-container {
@@ -179,14 +245,10 @@ export default {
   visibility: hidden;
 }
 
-.create-button {
-  cursor: pointer;
-  border-radius: 50%;
-  transition: all 0.2s linear;
-}
-
-.create-button:hover {
-  background: rgb(212, 212, 212);
+.hide-sidebar-items .selected-item {
+  opacity: 1;
+  height: 2.3rem;
+  visibility: visible;
 }
 
 .sidebar-items-container-heading {

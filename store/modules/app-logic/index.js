@@ -5,6 +5,7 @@ const defaultState = {
   categories: [],
   selectedCategory: {},
   searchFilter: "",
+  homeSectionSelected: true,
 };
 
 const state = defaultState;

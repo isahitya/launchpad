@@ -3,6 +3,10 @@ export default {
     state.searchFilter = searchFilter;
   },
   setSelectedCategory(state, categoryId) {
+    if (!categoryId) {
+      state.selectedCategory = {};
+      return;
+    }
     state.selectedCategory = state.categories.find((c) => c.id == categoryId);
   },
   createCategory(state, categoryName) {
@@ -10,18 +14,11 @@ export default {
       id: "c_" + categoryName,
       name: categoryName,
       iconURL: "",
-      tiles: {},
+      tiles: [],
     };
     state.categories.push(category);
   },
-  createGroup(state, group) {
-    let category = state.categories.find((c) => {
-      return c.id == group.categoryId;
-    });
-    category.tiles[group.name] = [];
-  },
   createTile(state, tile) {
-    console.log(tile);
     let category = state.categories.find((c) => {
       return c.id == tile.categoryId;
     });
@@ -32,19 +29,13 @@ export default {
     let newTile = {
       id: "t_" + tile.name,
       name: tile.name,
-      description: "",
       iconURL: tile.iconURL,
       tileURL: tile.tileURL,
     };
-    if (!category.tiles[tile.group]) {
-      if (!category.tiles["All"]) category.tiles["All"] = [];
-      category.tiles["All"].push(newTile);
-      return;
-    }
-    category.tiles[tile.group].push(newTile);
+    category.tiles.push(newTile);
   },
   initializeAppData(state, categoryData) {
     state.categories = categoryData;
-    state.selectedCategory = state.categories[0];
+    //state.selectedCategory = state.categories[0];
   },
 };

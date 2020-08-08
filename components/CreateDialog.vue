@@ -10,24 +10,6 @@
         </md-field>
       </md-tab>
 
-      <md-tab md-label="Group" id="groupTab">
-        <md-field>
-          <label for="category">Category</label>
-          <md-select v-model="groupCategoryId" name="category">
-            <md-option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.id"
-              >{{ category.name }}</md-option
-            >
-          </md-select>
-        </md-field>
-        <md-field>
-          <label>Group name</label>
-          <md-input v-model="groupName"></md-input>
-        </md-field>
-      </md-tab>
-
       <md-tab md-label="App Tile" id="tileTab">
         <md-field>
           <label>Category</label>
@@ -37,20 +19,6 @@
               :key="category.id"
               :value="category.id"
               >{{ category.name }}</md-option
-            >
-          </md-select>
-        </md-field>
-        <md-field>
-          <label>Group (optional)</label>
-          <md-select
-            v-model="tileGroupName"
-            :disabled="tileCategoryId.length == 0"
-          >
-            <md-option
-              v-for="groupName in tileGroupNames"
-              :key="groupName"
-              :value="groupName"
-              >{{ groupName }}</md-option
             >
           </md-select>
         </md-field>
@@ -91,10 +59,7 @@ export default {
     return {
       showDialog: false,
       categoryName: "",
-      groupName: "",
-      groupCategoryId: "",
       tileCategoryId: "",
-      tileGroupName: "",
       tileName: "",
       tileURL: "",
       tileIconURL: "",
@@ -103,13 +68,6 @@ export default {
   computed: {
     categories() {
       return this.$store.state.appLogic.categories;
-    },
-    tileGroupNames() {
-      if (this.tileCategoryId.length == 0) return [];
-      let category = this.$store.state.appLogic.categories.find((c) => {
-        return c.id == this.tileCategoryId;
-      });
-      return Object.keys(category.tiles);
     },
   },
   methods: {
@@ -124,21 +82,6 @@ export default {
         }
         this.$store.dispatch("createCategory", this.categoryName);
         this.categoryName = "";
-        this.showDialog = false;
-      }
-      if (this.currentTabId == "groupTab") {
-        if (this.groupCategoryId.length == 0) {
-          alert("Please select a category");
-          return;
-        }
-        if (this.groupName.length == 0) {
-          alert("Please enter a group name");
-          return;
-        }
-        this.$store.dispatch("createGroup", {
-          name: this.groupName,
-          categoryId: this.groupCategoryId,
-        });
         this.showDialog = false;
       }
       if (this.currentTabId == "tileTab") {
@@ -164,7 +107,6 @@ export default {
           name: this.tileName,
           tileURL: this.tileURL,
           categoryId: this.tileCategoryId,
-          group: this.tileGroupName,
           iconURL: this.tileIconURL,
         });
         this.showDialog = false;
@@ -173,10 +115,7 @@ export default {
     },
     clearFields() {
       this.categoryName = "";
-      this.groupName = "";
-      this.groupCategoryId = "";
       this.tileCategoryId = "";
-      this.tileGroupName = "";
       this.tileName = "";
       this.tileURL = "";
       this.tileIconURL = "";

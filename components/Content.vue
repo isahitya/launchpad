@@ -5,22 +5,16 @@
 <template>
   <div class="content" ref="content">
     <CreateDialog />
-    <div
-      class="tile-group-container"
-      v-for="(tileGroupTiles, tileGroupName) in tilesToDisplay"
-      :key="tileGroupName"
-    >
-      <h1>{{ tileGroupName }}</h1>
-      <div class="tiles-container">
-        <a
-          style="text-decoration:none"
-          v-for="tile in tileGroupTiles"
-          :key="tile.id"
-          :href="tile.tileURL"
-        >
-          <Tile :name="tile.name" :iconURL="tile.iconURL" />
-        </a>
-      </div>
+
+    <div class="tiles-container">
+      <a
+        style="text-decoration:none"
+        v-for="tile in tilesToDisplay"
+        :key="tile.id"
+        :href="tile.url"
+      >
+        <Tile :name="tile.name" :iconURL="tile.iconURL" />
+      </a>
     </div>
   </div>
 </template>
@@ -31,33 +25,31 @@ export default {
     this.$nuxt.$on("hamburger-button-click", this.toggleContentPosition);
   },
   computed: {
+    homeSectionSelected() {
+      return this.$store.state.appLogic.homeSectionSelected;
+    },
     tilesToDisplay() {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();
       if (filter.length == 0) {
+        if (this.homeSectionSelected) {
+          return this.filterTiles("");
+        }
         return this.$store.state.appLogic.selectedCategory.tiles;
       }
-      let tiles = {};
-      this.$store.state.appLogic.categories.forEach((category) => {
-        tiles = { ...tiles, ...this.filterTiles(category.tiles, filter) };
-      });
-      return tiles;
+      return this.filterTiles(filter);
     },
   },
   methods: {
-    filterTiles(tiles, filter) {
-      let tileGroups = {};
-      for (const [key, value] of Object.entries(tiles)) {
-        let filteredTiles = value.filter((element) => {
-          return (
-            element.name.toUpperCase().includes(filter) ||
-            element.description.toUpperCase().includes(filter)
-          );
+    filterTiles(filter) {
+      let tiles = [];
+      const categories = this.$store.state.appLogic.categories;
+      categories.forEach((category) => {
+        let filteredTiles = category.tiles.filter((tile) => {
+          return tile.name.toUpperCase().includes(filter);
         });
-        if (filteredTiles.length) {
-          tileGroups[key] = filteredTiles;
-        }
-      }
-      return tileGroups;
+        if (filteredTiles.length) tiles = tiles.concat(filteredTiles);
+      });
+      return tiles;
     },
     toggleContentPosition() {
       if (this.$refs.content.style.marginLeft != "0rem") {
