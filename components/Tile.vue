@@ -5,7 +5,7 @@
 -->
 
 <template>
-  <div class="tile md-elevation-5">
+  <div v-if="!showK2Tile" class="tile md-elevation-5">
     <img
       class="tile-icon"
       :src="iconURL.length != 0 ? iconURL : defaultIconURL"
@@ -13,15 +13,25 @@
     <hr class="separator" />
     <h1 class="tile-heading">{{ name }}</h1>
   </div>
+  <div v-else class="tile tile-wide md-elevation-5">
+    <h1 class="tile-heading">{{ name }}</h1>
+    <hr class="separator" />
+    <h1 class="tile-text">{{ text }}</h1>
+  </div>
 </template>
 
 <script>
 export default {
-  props: ["name", "iconURL"],
+  props: ["name", "iconURL", "text"],
   data() {
     return {
       defaultIconURL: "/tiles/default_icon.png",
     };
+  },
+  computed: {
+    showK2Tile() {
+      return this.$store.getters.isK2ScriptSelected;
+    },
   },
 };
 </script>
@@ -43,6 +53,12 @@ export default {
   justify-content: flex-start;
   align-items: center;
   transition: all 0.25s ease;
+}
+
+.tile-wide {
+  width: 15rem;
+  height: 6.5rem;
+  align-items: flex-start;
 }
 
 .tile:hover {
@@ -72,12 +88,20 @@ export default {
   color: rgb(32, 32, 32);
 }
 
+.tile-wide .tile-heading {
+  margin-right: auto;
+}
+
 .separator {
   margin: 0px;
   border: none;
   border-top: 1.5px solid rgb(212, 212, 212);
   height: 1px;
   width: 100%;
+}
+
+.tile-wide .separator {
+  border-top: 1.5px solid rgb(225, 225, 225);
 }
 
 .tile-text {

@@ -16,7 +16,7 @@ Component will generate :
 
       <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
     </div>
-    <div class="search-container">
+    <div class="search-container" ref="searchContainer">
       <div class="search-icon"></div>
       <input
         type="text"
@@ -60,6 +60,7 @@ export default {
     },
     searchInputBlur() {
       this.clearSearchInput();
+
       this.$refs.searchCloseIcon.style.visibility = "hidden";
       this.$refs.searchCloseIcon.style.transform = "rotate(0deg)";
     },
@@ -99,12 +100,15 @@ export default {
 .search-container {
   position: relative;
   margin-left: 2rem;
+  margin-right: 3rem;
+  width: 30rem;
+  transition: all 0.2s linear;
 }
 
 .search-input {
   font-size: 1rem;
   border: none;
-  width: 30rem;
+  width: 100%;
   height: 2.5rem;
   margin-right: 1rem;
   padding-left: 2.5rem;
@@ -113,7 +117,7 @@ export default {
   outline: none;
 
   border-radius: 3px;
-  transition: all 0.1s linear;
+  transition: all 0.2s linear;
 }
 
 .search-icon {

@@ -3,8 +3,12 @@ import axios from "axios";
 export default {
   async nuxtServerInit(vuexContext, context) {
     try {
-      let response = await this.$getSections();
-      vuexContext.commit("initializeAppData", response.data);
+      let sectionsResponse = await this.$getSections();
+      let k2ScriptsResponse = await this.$getK2Scripts();
+      vuexContext.commit("initializeAppData", {
+        sections: sectionsResponse.data,
+        k2Scripts: k2ScriptsResponse.data,
+      });
     } catch (err) {
       console.log("Cannot load data from server");
       console.log(err); //TODO: redirect to error page with appropriate message
@@ -13,21 +17,27 @@ export default {
   setSearchFilter(vuexContext, searchFilter) {
     vuexContext.commit("setSearchFilter", searchFilter);
   },
-  setSelectedCategory(vuexContext, categoryId) {
-    vuexContext.commit("setSelectedCategory", categoryId);
+  setSelectedSection(vuexContext, sectionId) {
+    vuexContext.commit("setSelectedSection", sectionId);
   },
-  async createCategory(vuexContext, categoryName) {
-    try {
-      const response = await axios.post("http://localhost:5000/addSection", {
-        name: categoryName,
-      });
-      console.log(response.data); //TODO: Retrive category object from server
-      vuexContext.commit("createCategory", categoryName);
-    } catch (err) {
-      console.log(err.message);
-    }
+  setAccountNo(vuexContext, value) {
+    vuexContext.commit("setAccountNo", value);
+  },
+  setSelectedRegion(vuexContext, code) {
+    vuexContext.commit("setSelectedRegion", code);
   },
   createTile(vuexContext, tile) {
     vuexContext.commit("createTile", tile);
+  },
+  async createSection(vuexContext, sectionName) {
+    try {
+      const response = await axios.post("http://localhost:5000/addSection", {
+        name: sectionName,
+      });
+      console.log(response.data); //TODO: Retrive section object from server
+      vuexContext.commit("createSection", sectionName);
+    } catch (err) {
+      console.log(err.message);
+    }
   },
 };

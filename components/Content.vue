@@ -1,19 +1,39 @@
 <!--
 <Content> component will generate:
-  - Groups of <Tile> component for tiles of (the selected category) or (tiles that include search filter from all categories)
+  - Groups of <Tile> component for tiles of (the selected section) or (tiles that include search filter from all sections)
 -->
 <template>
   <div class="content" ref="content">
     <CreateDialog />
+    <div v-if="isK2ScriptSelected" class="account-no-and-region-container">
+      <input
+        type="text"
+        class="account-no-input"
+        placeholder="Enter account number"
+        v-model="accountNo"
+      />
+      <select class="region-select" @change="regionSelected($event)">
+        <option
+          v-for="region in regions"
+          :key="region.code"
+          :value="region.code"
+          >{{ region.name }} {{ region.code }}</option
+        >
+      </select>
+    </div>
 
     <div class="tiles-container">
       <a
         style="text-decoration:none"
         v-for="tile in tilesToDisplay"
         :key="tile.id"
-        :href="tile.url"
+        :href="isK2ScriptSelected ? generateURL(tile.url) : tile.url"
       >
-        <Tile :name="tile.name" :iconURL="tile.iconURL" />
+        <Tile
+          :name="tile.name"
+          :iconURL="tile.iconURL"
+          :text="tile.description ? tile.description : ''"
+        />
       </a>
     </div>
   </div>
@@ -25,30 +45,54 @@ export default {
     this.$nuxt.$on("hamburger-button-click", this.toggleContentPosition);
   },
   computed: {
+    accountNo: {
+      get() {
+        return this.$store.state.appLogic.accountNo;
+      },
+      set(value) {
+        this.$store.commit("setAccountNo", value);
+      },
+    },
     homeSectionSelected() {
       return this.$store.state.appLogic.homeSectionSelected;
+    },
+    isK2ScriptSelected() {
+      return this.$store.getters.isK2ScriptSelected;
+    },
+    regions() {
+      return this.$store.state.appLogic.regions;
     },
     tilesToDisplay() {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();
       if (filter.length == 0) {
         if (this.homeSectionSelected) {
-          return this.filterTiles("");
+          return this.filterTiles("", false);
         }
-        return this.$store.state.appLogic.selectedCategory.tiles;
+        if (this.$store.state.appLogic.selectedK2Script.tiles) {
+          //"K2 script" is selected
+          return this.$store.state.appLogic.selectedK2Script.tiles;
+        }
+        //"My apps" is selected
+        return this.$store.state.appLogic.selectedSection.tiles;
       }
       return this.filterTiles(filter);
     },
   },
   methods: {
-    filterTiles(filter) {
+    filterTiles(filter, includeK2Scripts = true) {
       let tiles = [];
-      const categories = this.$store.state.appLogic.categories;
-      categories.forEach((category) => {
-        let filteredTiles = category.tiles.filter((tile) => {
+      const sections = this.$store.state.appLogic.sections;
+      const k2Scripts = this.$store.state.appLogic.k2Scripts;
+
+      const filterFunction = (section) => {
+        let filteredTiles = section.tiles.filter((tile) => {
           return tile.name.toUpperCase().includes(filter);
         });
         if (filteredTiles.length) tiles = tiles.concat(filteredTiles);
-      });
+      };
+
+      sections.forEach(filterFunction);
+      if (includeK2Scripts) k2Scripts.forEach(filterFunction);
       return tiles;
     },
     toggleContentPosition() {
@@ -57,6 +101,13 @@ export default {
       } else {
         this.$refs.content.style.marginLeft = "16rem";
       }
+    },
+    regionSelected(event) {
+      this.$store.dispatch("setSelectedRegion", event.target.value);
+    },
+    generateURL(baseURL) {
+      const regionCode = this.$store.state.appLogic.selectedRegion.code;
+      return `${baseURL}?accountId=${this.accountNo}&region=${regionCode}`;
     },
   },
 };
@@ -80,62 +131,56 @@ export default {
   transition: ease-in-out, all 0.3s ease-in-out;
 }
 
-.search-input-container {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  width: auto;
-  transition-delay: 0.15s;
+.account-no-and-region-container {
+  align-self: flex-start;
+  width: 80%;
+  margin-top: 1rem;
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.account-no-input {
+  font-size: 1rem;
+  border: none;
+  width: 20rem;
+  height: 2.5rem;
+  margin-right: 1rem;
+  padding-left: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid rgb(221, 221, 221);
+  background-color: #ffffff;
+  /* background-color: #f2f3f4; */
+  outline: none;
+  border-radius: 3px;
   transition: all 0.2s linear;
 }
 
-.search-close-icon {
-  visibility: hidden;
-  position: absolute;
-  cursor: pointer;
-  border-radius: 50%;
-  right: 1.5rem;
-  top: 1rem;
-  height: 2rem;
-  z-index: 100;
-  opacity: 0.5;
-  transition: all 0.4s linear;
+.account-no-input:focus {
+  background-color: #ffffff;
+  box-shadow: 1px 1px 4px 1px rgb(0, 0, 0, 0.2);
 }
 
-.search-close-icon:hover {
-  background-color: rgb(228, 228, 228);
-}
-
-.search-input {
-  border: none;
-  height: 3rem;
-  font-size: 1.5rem;
-  color: rgb(56, 56, 56);
-  padding-left: 1rem;
-  margin-top: 0.5rem;
-  margin-bottom: 3rem;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+.region-select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #ffffff;
+  background-image: url("/down_arrow.png");
+  background-repeat: no-repeat;
+  background-position-x: calc(100% - 0.5rem);
+  background-position-y: 0.8rem;
+  background-size: 1rem;
   outline: none;
-  width: 25rem;
-  transition: ease-in-out, all 0.3s ease-in-out;
+  font-size: 0.9rem;
+  border-radius: 0.2rem;
+  border: 1px solid rgb(221, 221, 221);
+  height: 2.5rem;
+  padding-left: 0.5rem;
+  padding-right: 1.5rem;
+  transition: all 0.2s linear;
 }
 
-.search-input::placeholder {
-  opacity: 0.7;
-}
-
-.search-input:focus,
-.search-input:active {
-  width: calc(100vw - 18rem);
-  box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.2);
-}
-
-.search-input:focus::placeholder,
-.search-input:active::placeholder {
-  opacity: 1;
+.region-select:hover {
+  box-shadow: 1px 1px 4px 1px rgb(0, 0, 0, 0.2);
 }
 
 .tile-group-container {

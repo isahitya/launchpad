@@ -3,22 +3,15 @@
     <md-dialog-title>Create</md-dialog-title>
 
     <md-tabs @md-changed="tabChanged($event)" md-dynamic-height>
-      <md-tab md-label="Category" id="categoryTab">
-        <md-field>
-          <label>Category name</label>
-          <md-input v-model="categoryName"></md-input>
-        </md-field>
-      </md-tab>
-
       <md-tab md-label="App Tile" id="tileTab">
         <md-field>
-          <label>Category</label>
-          <md-select v-model="tileCategoryId">
+          <label>Section</label>
+          <md-select v-model="tileSectionId">
             <md-option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.id"
-              >{{ category.name }}</md-option
+              v-for="section in sections"
+              :key="section.id"
+              :value="section.id"
+              >{{ section.name }}</md-option
             >
           </md-select>
         </md-field>
@@ -33,6 +26,12 @@
         <md-field
           ><label>Application icon URL (optional)</label>
           <md-input v-model="tileIconURL"></md-input>
+        </md-field>
+      </md-tab>
+      <md-tab md-label="Section" id="sectionTab">
+        <md-field>
+          <label>Section name</label>
+          <md-input v-model="sectionName"></md-input>
         </md-field>
       </md-tab>
     </md-tabs>
@@ -58,16 +57,16 @@ export default {
   data() {
     return {
       showDialog: false,
-      categoryName: "",
-      tileCategoryId: "",
+      sectionName: "",
+      tileSectionId: "",
       tileName: "",
       tileURL: "",
       tileIconURL: "",
     };
   },
   computed: {
-    categories() {
-      return this.$store.state.appLogic.categories;
+    sections() {
+      return this.$store.state.appLogic.sections;
     },
   },
   methods: {
@@ -75,18 +74,18 @@ export default {
       this.currentTabId = tabId;
     },
     saveButtonClicked() {
-      if (this.currentTabId == "categoryTab") {
-        if (this.categoryName.length == 0) {
-          alert("Please enter category name");
+      if (this.currentTabId == "sectionTab") {
+        if (this.sectionName.length == 0) {
+          alert("Please enter section name");
           return;
         }
-        this.$store.dispatch("createCategory", this.categoryName);
-        this.categoryName = "";
+        this.$store.dispatch("createSection", this.sectionName);
+        this.sectionName = "";
         this.showDialog = false;
       }
       if (this.currentTabId == "tileTab") {
-        if (this.tileCategoryId.length == 0) {
-          alert("Please select a category");
+        if (this.tileSectionId.length == 0) {
+          alert("Please select a section");
           return;
         }
         if (this.tileName.length == 0) {
@@ -106,7 +105,7 @@ export default {
         this.$store.dispatch("createTile", {
           name: this.tileName,
           tileURL: this.tileURL,
-          categoryId: this.tileCategoryId,
+          sectionId: this.tileSectionId,
           iconURL: this.tileIconURL,
         });
         this.showDialog = false;
@@ -114,8 +113,8 @@ export default {
       this.clearFields();
     },
     clearFields() {
-      this.categoryName = "";
-      this.tileCategoryId = "";
+      this.sectionName = "";
+      this.tileSectionId = "";
       this.tileName = "";
       this.tileURL = "";
       this.tileIconURL = "";

@@ -2,28 +2,52 @@ export default {
   setSearchFilter(state, searchFilter) {
     state.searchFilter = searchFilter;
   },
-  setSelectedCategory(state, categoryId) {
-    if (!categoryId) {
-      state.selectedCategory = {};
+  setSelectedSection(state, sectionId) {
+    if (!sectionId) {
+      state.selectedSection = {};
+      state.selectedK2Script = {};
       return;
     }
-    state.selectedCategory = state.categories.find((c) => c.id == categoryId);
+    let section = state.sections.find((c) => c.id == sectionId);
+    if (section) {
+      state.selectedSection = section;
+      state.selectedK2Script = {};
+      return;
+    }
+    section = state.k2Scripts.find((k) => k.id == sectionId);
+    if (section) {
+      state.selectedSection = {};
+      state.selectedK2Script = section;
+      return;
+    }
   },
-  createCategory(state, categoryName) {
-    let category = {
-      id: "c_" + categoryName,
-      name: categoryName,
+  setAccountNo(state, value) {
+    state.accountNo = value;
+  },
+  setSelectedRegion(state, code) {
+    let region = state.regions.find((r) => r.code == code);
+    if (region) state.selectedRegion = region;
+  },
+  createSection(state, sectionName) {
+    let section = {
+      id: "c_" + sectionName,
+      name: sectionName,
       iconURL: "",
       tiles: [],
     };
-    state.categories.push(category);
+    state.sections.push(section);
   },
-  createTile(state, tile) {
-    let category = state.categories.find((c) => {
-      return c.id == tile.categoryId;
+  async createTile(state, tile) {
+    let section = state.sections.find((c) => {
+      return c.id == tile.sectionId;
     });
-    if (!category) {
-      console.log("Category not found");
+    if (!section) {
+      console.log("Section not found");
+      return;
+    }
+    let tileAdded = await this.$apiLogic.addTile(tile);
+    if (!tileAdded) {
+      console.log("Couldn't add tile");
       return;
     }
     let newTile = {
@@ -32,10 +56,13 @@ export default {
       iconURL: tile.iconURL,
       tileURL: tile.tileURL,
     };
-    category.tiles.push(newTile);
+    section.tiles.push(newTile);
   },
-  initializeAppData(state, categoryData) {
-    state.categories = categoryData;
-    //state.selectedCategory = state.categories[0];
+
+  initializeAppData(state, data) {
+    state.sections = data.sections;
+    state.k2Scripts = data.k2Scripts;
+    console.log(state.k2Scripts);
+    //state.selectedSection = state.sections[0];
   },
 };

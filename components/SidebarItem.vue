@@ -1,6 +1,6 @@
 <!--
 <SidebarItem> component will generate:
-  - header for the category name
+  - header for the section name
   - styling for the highlighted item
 -->
 
@@ -59,7 +59,7 @@ export default {
 
 .sidebar-item h1 {
   vertical-align: middle;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   color: #000000;
   /* font-weight: 500;
   font-size: 1rem;

@@ -21,6 +21,7 @@ let store = {};
 
   resolveStoreModules(require('../store/modules/app-logic/index.js'), 'modules/app-logic/index.js')
   resolveStoreModules(require('../store/modules/app-logic/actions.js'), 'modules/app-logic/actions.js')
+  resolveStoreModules(require('../store/modules/app-logic/getters.js'), 'modules/app-logic/getters.js')
   resolveStoreModules(require('../store/modules/app-logic/mutations.js'), 'modules/app-logic/mutations.js')
 
   // If the environment supports hot reloading...
@@ -31,6 +32,7 @@ let store = {};
       '../store/index.js',
       '../store/modules/app-logic/index.js',
       '../store/modules/app-logic/actions.js',
+      '../store/modules/app-logic/getters.js',
       '../store/modules/app-logic/mutations.js',
     ], () => {
       // Update `root.modules` with the latest definitions.
