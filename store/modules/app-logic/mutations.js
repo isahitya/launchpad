@@ -28,15 +28,14 @@ export default {
     let region = state.regions.find((r) => r.code == code);
     if (region) state.selectedRegion = region;
   },
-  createSection(state, sectionName) {
-    let section = {
-      id: "c_" + sectionName,
-      name: sectionName,
-      iconURL: "",
-      tiles: [],
-    };
-    state.sections.push(section);
-  },
+  // createSection(state, section) {
+  //   let sectionAdded = await this.$apiLogic.addSection(section);
+  //   if(!sectionAdded){
+  //     return;
+  //   }
+  //   //This method is incomplete, will cause weird behaviour when invoked. Complete it
+  //   state.sections.push(section);
+  // },
   async createTile(state, tile) {
     let section = state.sections.find((c) => {
       return c.id == tile.sectionId;
@@ -54,7 +53,7 @@ export default {
       id: "t_" + tile.name,
       name: tile.name,
       iconURL: tile.iconURL,
-      tileURL: tile.tileURL,
+      url: tile.url,
     };
     section.tiles.push(newTile);
   },

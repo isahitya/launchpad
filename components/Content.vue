@@ -66,20 +66,19 @@ export default {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();
       if (filter.length == 0) {
         if (this.homeSectionSelected) {
-          return this.filterTiles("", false);
+          return this.filterTiles("");
         }
-        if (this.$store.state.appLogic.selectedK2Script.tiles) {
-          //"K2 script" is selected
+        if (this.isK2ScriptSelected) {
           return this.$store.state.appLogic.selectedK2Script.tiles;
         }
-        //"My apps" is selected
+        //"My apps" section item is selected
         return this.$store.state.appLogic.selectedSection.tiles;
       }
       return this.filterTiles(filter);
     },
   },
   methods: {
-    filterTiles(filter, includeK2Scripts = true) {
+    filterTiles(filter) {
       let tiles = [];
       const sections = this.$store.state.appLogic.sections;
       const k2Scripts = this.$store.state.appLogic.k2Scripts;
@@ -91,8 +90,9 @@ export default {
         if (filteredTiles.length) tiles = tiles.concat(filteredTiles);
       };
 
-      sections.forEach(filterFunction);
-      if (includeK2Scripts) k2Scripts.forEach(filterFunction);
+      if (this.isK2ScriptSelected) k2Scripts.forEach(filterFunction);
+      else sections.forEach(filterFunction);
+
       return tiles;
     },
     toggleContentPosition() {
@@ -199,6 +199,8 @@ export default {
 .tiles-container {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 @media (max-width: 30rem) {

@@ -33,6 +33,10 @@
           <label>Section name</label>
           <md-input v-model="sectionName"></md-input>
         </md-field>
+        <md-field>
+          <label>Icon URL</label>
+          <md-input v-model="sectionIconURL"></md-input>
+        </md-field>
       </md-tab>
     </md-tabs>
 
@@ -58,6 +62,7 @@ export default {
     return {
       showDialog: false,
       sectionName: "",
+      sectionIconURL: "",
       tileSectionId: "",
       tileName: "",
       tileURL: "",
@@ -79,8 +84,12 @@ export default {
           alert("Please enter section name");
           return;
         }
-        this.$store.dispatch("createSection", this.sectionName);
+        this.$store.dispatch("createSection", {
+          name: this.sectionName,
+          iconURL: this.sectionIconURL,
+        });
         this.sectionName = "";
+        this.sectionIconURL = "";
         this.showDialog = false;
       }
       if (this.currentTabId == "tileTab") {
@@ -104,7 +113,7 @@ export default {
 
         this.$store.dispatch("createTile", {
           name: this.tileName,
-          tileURL: this.tileURL,
+          url: this.tileURL,
           sectionId: this.tileSectionId,
           iconURL: this.tileIconURL,
         });
