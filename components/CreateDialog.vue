@@ -80,46 +80,52 @@ export default {
     },
     saveButtonClicked() {
       if (this.currentTabId == "sectionTab") {
-        if (this.sectionName.length == 0) {
-          alert("Please enter section name");
-          return;
-        }
-        this.$store.dispatch("createSection", {
-          name: this.sectionName,
-          iconURL: this.sectionIconURL,
-        });
-        this.sectionName = "";
-        this.sectionIconURL = "";
-        this.showDialog = false;
+        this.saveNewSection();
       }
       if (this.currentTabId == "tileTab") {
-        if (this.tileSectionId.length == 0) {
-          alert("Please select a section");
-          return;
-        }
-        if (this.tileName.length == 0) {
-          alert("Please enter application name");
-          return;
-        }
-        if (this.tileURL.length == 0) {
-          alert("Please enter application URL");
-          return;
-        }
-        this.tileURL =
-          this.tileURL.startsWith("http://") ||
-          this.tileURL.startsWith("https://")
-            ? this.tileURL
-            : "https://" + this.tileURL;
-
-        this.$store.dispatch("createTile", {
-          name: this.tileName,
-          url: this.tileURL,
-          sectionId: this.tileSectionId,
-          iconURL: this.tileIconURL,
-        });
-        this.showDialog = false;
+        this.saveNewTile();
       }
       this.clearFields();
+    },
+    saveNewSection() {
+      if (this.sectionName.length == 0) {
+        alert("Please enter section name");
+        return;
+      }
+      this.$store.dispatch("addSection", {
+        name: this.sectionName,
+        iconURL: this.sectionIconURL,
+      });
+      this.sectionName = "";
+      this.sectionIconURL = "";
+      this.showDialog = false;
+    },
+    saveNewTile() {
+      if (this.tileSectionId.length == 0) {
+        alert("Please select a section");
+        return;
+      }
+      if (this.tileName.length == 0) {
+        alert("Please enter application name");
+        return;
+      }
+      if (this.tileURL.length == 0) {
+        alert("Please enter application URL");
+        return;
+      }
+      this.tileURL =
+        this.tileURL.startsWith("http://") ||
+        this.tileURL.startsWith("https://")
+          ? this.tileURL
+          : "https://" + this.tileURL;
+
+      this.$store.dispatch("addTile", {
+        name: this.tileName,
+        url: this.tileURL,
+        sectionId: this.tileSectionId,
+        iconURL: this.tileIconURL,
+      });
+      this.showDialog = false;
     },
     clearFields() {
       this.sectionName = "";
@@ -131,5 +137,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -28,15 +28,10 @@ export default {
     let region = state.regions.find((r) => r.code == code);
     if (region) state.selectedRegion = region;
   },
-  // createSection(state, section) {
-  //   let sectionAdded = await this.$apiLogic.addSection(section);
-  //   if(!sectionAdded){
-  //     return;
-  //   }
-  //   //This method is incomplete, will cause weird behaviour when invoked. Complete it
-  //   state.sections.push(section);
-  // },
-  async createTile(state, tile) {
+  addSection(state, section) {
+    state.sections.push(section);
+  },
+  addTile(state, tile) {
     let section = state.sections.find((c) => {
       return c.id == tile.sectionId;
     });
@@ -44,13 +39,8 @@ export default {
       console.log("Section not found");
       return;
     }
-    let tileAdded = await this.$apiLogic.addTile(tile);
-    if (!tileAdded) {
-      console.log("Couldn't add tile");
-      return;
-    }
     let newTile = {
-      id: "t_" + tile.name,
+      id: tile.id,
       name: tile.name,
       iconURL: tile.iconURL,
       url: tile.url,
@@ -61,7 +51,5 @@ export default {
   initializeAppData(state, data) {
     state.sections = data.sections;
     state.k2Scripts = data.k2Scripts;
-    console.log(state.k2Scripts);
-    //state.selectedSection = state.sections[0];
   },
 };

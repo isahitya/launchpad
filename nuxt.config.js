@@ -47,11 +47,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [
-    "~/plugins/getSections.js",
-    "~/plugins/getK2Scripts.js",
-    "~/plugins/apiLogic.js",
-  ],
+  plugins: ["~/plugins/apiLogic.js"],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components

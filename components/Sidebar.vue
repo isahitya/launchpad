@@ -1,16 +1,22 @@
 <!--
 <Sidebar> component will generate:
-  - User profile card
-  - Search input field
-  - <SidebarItem> for each of the sections
-  - A slider(vertical line) displayed next to the selected section item
+  - 'My apps' and 'K2Scripts' dropdowns
+  - Add button next to each dropdown
+  - 'My apps' dropdown will have <SidebarItem> for each section
+  - 'K2Script' dropdown will have <SidebarItem> for each K2Script section/category
+  
+Section selected by user will always be shown(won't hide when collapsing the dropdown)
+
+  
 -->
 
 <template>
   <div class="sidebar unselectable" ref="sidebar">
     <div class="sidebar-items-container">
-      <div class="sidebar-heading-container " @click="toggleSidebarAppsItems()">
-        <!-- <i class="fa fa-home fa-2x " aria-hidden="true"></i> -->
+      <div
+        class="sidebar-heading-container "
+        @click="toggleSidebarMyAppsItems()"
+      >
         <i
           class="fa fa-angle-left fa-2x arrow-icon"
           :class="{ 'rotate-arrow-icon': !myAppsOpen }"
@@ -34,11 +40,11 @@
           @click.native="homeSectionClicked()"
         />
         <SidebarItem
-          v-for="item in sections"
+          v-for="item in myAppsSections"
           :key="item.id"
           :text="item.name"
           :iconURL="item.iconURL"
-          :highlight="item.id == selectedSection.id"
+          :highlight="item.id == selectedMyAppsSection.id"
           :tileCount="getTileCount(item.id)"
           @click.native="sidebarItemSelected(item.id)"
           :ref="item.id"
@@ -78,10 +84,6 @@
         />
       </div>
     </div>
-
-    <div class="slider" ref="slider">
-      <img src="~/assets/icons/arrow.png" />
-    </div>
   </div>
 </template>
 
@@ -100,18 +102,10 @@ export default {
     homeSectionSelected() {
       return this.$store.state.appLogic.homeSectionSelected;
     },
-    searchFilter: {
-      get() {
-        return this.$store.state.appLogic.searchFilter;
-      },
-      set(value) {
-        this.$store.dispatch("setSearchFilter", value);
-      },
-    },
-    sections() {
+    myAppsSections() {
       return this.$store.state.appLogic.sections;
     },
-    selectedSection() {
+    selectedMyAppsSection() {
       return this.$store.state.appLogic.selectedSection;
     },
     selectedK2Script() {
@@ -137,16 +131,9 @@ export default {
       this.$store.state.appLogic.homeSectionSelected = false;
       this.$store.dispatch("setSearchFilter", "");
       this.$store.dispatch("setSelectedSection", itemId);
-      this.moveSlider(itemId);
     },
     createButtonClicked() {
       $nuxt.$emit("createButtonClicked");
-    },
-    moveSlider(itemId) {
-      let sidebarItemRect = this.$refs[itemId][0].$el.getBoundingClientRect();
-      let sidebarRect = this.$el.getBoundingClientRect();
-      let sliderNewY = sidebarItemRect.y - sidebarRect.y;
-      this.$refs.slider.style.top = `${sliderNewY}px`;
     },
     toggleSidebar() {
       if (!this.$refs.sidebar) {
@@ -161,7 +148,7 @@ export default {
         this.$refs.sidebar.style.visibility = "hidden";
       }
     },
-    toggleSidebarAppsItems() {
+    toggleSidebarMyAppsItems() {
       this.myAppsOpen = !this.myAppsOpen;
     },
     toggleSidebarK2ScriptsItems() {

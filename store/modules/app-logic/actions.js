@@ -3,8 +3,8 @@ import axios from "axios";
 export default {
   async nuxtServerInit(vuexContext, context) {
     try {
-      let sectionsResponse = await this.$getSections();
-      let k2ScriptsResponse = await this.$getK2Scripts();
+      let sectionsResponse = await this.$apiLogic.getSections();
+      let k2ScriptsResponse = await this.$apiLogic.getK2Scripts();
       vuexContext.commit("initializeAppData", {
         sections: sectionsResponse.data,
         k2Scripts: k2ScriptsResponse.data,
@@ -26,18 +26,33 @@ export default {
   setSelectedRegion(vuexContext, code) {
     vuexContext.commit("setSelectedRegion", code);
   },
-  createTile(vuexContext, tile) {
-    vuexContext.commit("createTile", tile);
-  },
-  async createSection(vuexContext, sectionName) {
+  async addTile(vuexContext, tile) {
     try {
-      const response = await axios.post("http://localhost:5000/addSection", {
-        name: sectionName,
-      });
-      console.log(response.data); //TODO: Retrive section object from server
-      vuexContext.commit("createSection", sectionName);
+      let tileId = await this.$apiLogic.addTile(tile);
+      if (!tileId) {
+        console.log("Couldn't add tile");
+        return;
+      }
+      vuexContext.commit("addTile", { id: tileId, ...tile });
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
+    }
+  },
+  async addSection(vuexContext, section) {
+    try {
+      const sectionId = await this.$apiLogic.addSection(section);
+      console.log(sectionId);
+      if (!sectionId) {
+        console.log("Couldn't add section, no/invalid response from server");
+        return;
+      }
+      vuexContext.commit("addSection", {
+        id: sectionId,
+        tiles: [],
+        ...section,
+      });
+    } catch (err) {
+      console.log(err);
     }
   },
 };

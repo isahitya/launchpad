@@ -15,8 +15,6 @@ import { createStore } from './store.js'
 import nuxt_plugin_plugin_fe498ba4 from 'nuxt_plugin_plugin_fe498ba4' // Source: ./components/plugin.js (mode: 'all')
 import nuxt_plugin_axios_08d0ba44 from 'nuxt_plugin_axios_08d0ba44' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_vuematerial_3404bfc6 from 'nuxt_plugin_vuematerial_3404bfc6' // Source: ./vue-material.js (mode: 'all')
-import nuxt_plugin_getSections_7215a0c9 from 'nuxt_plugin_getSections_7215a0c9' // Source: ../plugins/getSections.js (mode: 'all')
-import nuxt_plugin_getK2Scripts_397ab4b6 from 'nuxt_plugin_getK2Scripts_397ab4b6' // Source: ../plugins/getK2Scripts.js (mode: 'all')
 import nuxt_plugin_apiLogic_585c88dd from 'nuxt_plugin_apiLogic_585c88dd' // Source: ../plugins/apiLogic.js (mode: 'all')
 
 // Component: <ClientOnly>
@@ -203,14 +201,6 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_vuematerial_3404bfc6 === 'function') {
     await nuxt_plugin_vuematerial_3404bfc6(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_getSections_7215a0c9 === 'function') {
-    await nuxt_plugin_getSections_7215a0c9(app.context, inject)
-  }
-
-  if (typeof nuxt_plugin_getK2Scripts_397ab4b6 === 'function') {
-    await nuxt_plugin_getK2Scripts_397ab4b6(app.context, inject)
   }
 
   if (typeof nuxt_plugin_apiLogic_585c88dd === 'function') {

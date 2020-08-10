@@ -1,6 +1,6 @@
 <!--
 <Tile> component will generate-
-  - Heading of the tile, separator and icon.
+  - Heading of the tile, separator and (icon or descripting).
   - Styling: Shadow for the tile, hover effect.
 -->
 
@@ -37,12 +37,10 @@ export default {
 </script>
 
 <style>
-.tile {
-  /* background-color: white;
-  box-shadow: 0px 2px 3px 1px rgb(0, 0, 0, 0.4); 
-  border: 1px solid rgb(184, 184, 184);
-  */
+/* Only tile class is used for tiles in 'My Apps'. 
+Both tile and tile-wide class are used for tiles in 'K2Scripts' */
 
+.tile {
   border-radius: 2px;
   width: 7rem;
   height: 9.5rem;
@@ -63,7 +61,6 @@ export default {
 
 .tile:hover {
   cursor: pointer;
-  /* box-shadow: 0px 2px 4px 3px rgb(0, 0, 0, 0.5); */
   border-color: #f58435;
 
   transform: scale(1.1);

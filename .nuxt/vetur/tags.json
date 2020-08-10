@@ -1,4 +1,10 @@
 {
+  "AccountNoAndRegion": {
+    "description": "Auto imported from components/AccountNoAndRegion.vue"
+  },
+  "LazyAccountNoAndRegion": {
+    "description": "Auto imported from components/AccountNoAndRegion.vue"
+  },
   "Content": {
     "description": "Auto imported from components/Content.vue"
   },
@@ -16,6 +22,12 @@
   },
   "LazyNavbar": {
     "description": "Auto imported from components/Navbar.vue"
+  },
+  "SearchInput": {
+    "description": "Auto imported from components/SearchInput.vue"
+  },
+  "LazySearchInput": {
+    "description": "Auto imported from components/SearchInput.vue"
   },
   "Sidebar": {
     "description": "Auto imported from components/Sidebar.vue"
