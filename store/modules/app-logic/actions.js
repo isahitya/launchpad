@@ -28,12 +28,14 @@ export default {
   },
   async addTile(vuexContext, tile) {
     try {
-      let tileId = await this.$apiLogic.addTile(tile);
-      if (!tileId) {
+      let response = await this.$apiLogic.addTile(tile);
+      if (!response) {
         console.log("Couldn't add tile");
         return;
       }
-      vuexContext.commit("addTile", { id: tileId, ...tile });
+      tile.iconURL = response.iconURL;
+      tile.id = response.tileId;
+      vuexContext.commit("addTile", tile);
     } catch (err) {
       console.log(err);
     }

@@ -27,6 +27,14 @@
           ><label>Application icon URL (optional)</label>
           <md-input v-model="tileIconURL"></md-input>
         </md-field>
+        <md-field
+          ><label>Application icon file (optional)</label>
+          <md-file
+            accept="image/*"
+            @change="appIconFileSelected"
+            name="appIcon"
+          ></md-file>
+        </md-field>
       </md-tab>
       <md-tab md-label="Section" id="sectionTab">
         <md-field>
@@ -41,7 +49,7 @@
     </md-tabs>
 
     <md-dialog-actions>
-      <md-button class="md-primary" @click="showDialog = false"
+      <md-button class="md-primary" @click="closeButtonClicked()"
         >Close</md-button
       >
       <md-button class="md-primary" @click="saveButtonClicked()"
@@ -67,6 +75,7 @@ export default {
       tileName: "",
       tileURL: "",
       tileIconURL: "",
+      appIconFile: null,
     };
   },
   computed: {
@@ -75,8 +84,16 @@ export default {
     },
   },
   methods: {
+    appIconFileSelected(event) {
+      this.appIconFile = event.target.files[0];
+    },
     tabChanged(tabId) {
       this.currentTabId = tabId;
+    },
+    closeButtonClicked() {
+      this.showDialog = false;
+      this.clearFields();
+      this.appIconFile = null;
     },
     saveButtonClicked() {
       if (this.currentTabId == "sectionTab") {
@@ -85,6 +102,7 @@ export default {
       if (this.currentTabId == "tileTab") {
         this.saveNewTile();
       }
+      this.showDialog = false;
       this.clearFields();
     },
     saveNewSection() {
@@ -96,9 +114,6 @@ export default {
         name: this.sectionName,
         iconURL: this.sectionIconURL,
       });
-      this.sectionName = "";
-      this.sectionIconURL = "";
-      this.showDialog = false;
     },
     saveNewTile() {
       if (this.tileSectionId.length == 0) {
@@ -113,6 +128,7 @@ export default {
         alert("Please enter application URL");
         return;
       }
+
       this.tileURL =
         this.tileURL.startsWith("http://") ||
         this.tileURL.startsWith("https://")
@@ -124,15 +140,17 @@ export default {
         url: this.tileURL,
         sectionId: this.tileSectionId,
         iconURL: this.tileIconURL,
+        iconFile: this.appIconFile,
       });
-      this.showDialog = false;
     },
     clearFields() {
       this.sectionName = "";
+      this.sectionIconURL = "";
       this.tileSectionId = "";
       this.tileName = "";
       this.tileURL = "";
       this.tileIconURL = "";
+      this.appIconFile = null;
     },
   },
 };

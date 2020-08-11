@@ -4,9 +4,16 @@ let apiLogic = {
   apiURL: "http://localhost:5000",
   async addTile(tile) {
     try {
-      let response = await axios.post(this.apiURL + "/addTile", tile);
+      let tileFormData = new FormData();
+      for (let key in tile) {
+        if (tile[key] instanceof File) {
+          tileFormData.append("appIcon", tile[key], tile[key].name);
+        } else tileFormData.append(key, tile[key]);
+      }
+
+      let response = await axios.post(this.apiURL + "/addTile", tileFormData);
       console.log(response);
-      return response.data.tileId;
+      return { tileId: response.data.tileId, iconURL: response.data.iconURL };
     } catch (err) {
       console.log(err);
       return false;
