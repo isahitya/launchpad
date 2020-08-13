@@ -126,11 +126,17 @@ export default {
       this.$store.state.appLogic.homeSectionSelected = true;
       this.$store.dispatch("setSearchFilter", "");
       this.$store.dispatch("setSelectedSection", null);
+      if (this.$mq == "sm") {
+        $nuxt.$emit("hamburger-button-click");
+      }
     },
     sidebarItemSelected(itemId) {
       this.$store.state.appLogic.homeSectionSelected = false;
       this.$store.dispatch("setSearchFilter", "");
       this.$store.dispatch("setSelectedSection", itemId);
+      if (this.$mq == "sm") {
+        $nuxt.$emit("hamburger-button-click");
+      }
     },
     createButtonClicked() {
       $nuxt.$emit("createButtonClicked");
@@ -303,7 +309,8 @@ export default {
 
 @media (max-width: 30rem) {
   .sidebar {
-    display: none;
+    margin-left: -16rem;
+    visibility: hidden;
   }
 }
 </style>

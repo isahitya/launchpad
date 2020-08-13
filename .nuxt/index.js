@@ -14,6 +14,7 @@ import { createStore } from './store.js'
 
 import nuxt_plugin_plugin_fe498ba4 from 'nuxt_plugin_plugin_fe498ba4' // Source: ./components/plugin.js (mode: 'all')
 import nuxt_plugin_axios_08d0ba44 from 'nuxt_plugin_axios_08d0ba44' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_nuxtmq_6d303a4c from 'nuxt_plugin_nuxtmq_6d303a4c' // Source: ./nuxt-mq.js (mode: 'all')
 import nuxt_plugin_vuematerial_3404bfc6 from 'nuxt_plugin_vuematerial_3404bfc6' // Source: ./vue-material.js (mode: 'all')
 import nuxt_plugin_apiLogic_585c88dd from 'nuxt_plugin_apiLogic_585c88dd' // Source: ../plugins/apiLogic.js (mode: 'all')
 
@@ -62,7 +63,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Launchpad","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"script":[],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"},{"rel":"stylesheet","href":"https:\u002F\u002Fstackpath.bootstrapcdn.com\u002Ffont-awesome\u002F4.7.0\u002Fcss\u002Ffont-awesome.min.css"}],"style":[]},
+    head: {"title":"Launchpad","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Your own pathway to the internet. _Add, Organize and Search_ your internet apps in a single place. After using this tool you'll better manage the hundreds of sites\u002Flinks you frequently (or sometimes not so frequently) visit."}],"script":[],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"},{"rel":"stylesheet","href":"https:\u002F\u002Fstackpath.bootstrapcdn.com\u002Ffont-awesome\u002F4.7.0\u002Fcss\u002Ffont-awesome.min.css"}],"style":[]},
 
     store,
     router,
@@ -197,6 +198,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_axios_08d0ba44 === 'function') {
     await nuxt_plugin_axios_08d0ba44(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_nuxtmq_6d303a4c === 'function') {
+    await nuxt_plugin_nuxtmq_6d303a4c(app.context, inject)
   }
 
   if (typeof nuxt_plugin_vuematerial_3404bfc6 === 'function') {

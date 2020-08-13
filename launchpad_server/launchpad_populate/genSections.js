@@ -1,4 +1,3 @@
-
 let categoryCounter = 1;
 
 function createCategory(name, iconURL) {
@@ -29,8 +28,8 @@ function getIconURL(iconName) {
 }
 
 function getCategories() {
-  let application = createCategory("Work", baseCategoryURL + "apps.png");
-  let k2Scripts = createCategory("HR", baseCategoryURL + "tag_icon.png");
+  let application = createCategory("Work", baseCategoryURL + "work.png");
+  let k2Scripts = createCategory("HR", baseCategoryURL + "hr.png");
   let applicationTiles = [
     createTile(
       "Taminator",

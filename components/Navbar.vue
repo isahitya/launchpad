@@ -116,4 +116,16 @@ i.fa-refresh {
   width: 1px;
   height: 3rem;
 }
+
+@media (max-width: 30rem) {
+  .profile-image {
+    visibility: hidden;
+  }
+  .fa-refresh {
+    visibility: hidden;
+  }
+  .app-header {
+    width: 100vw;
+  }
+}
 </style>

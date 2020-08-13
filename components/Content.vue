@@ -3,7 +3,10 @@
   - Groups of <Tile> component for tiles of (the selected section) or (tiles that include search filter from all sections)
 -->
 <template>
-  <div class="content" ref="content">
+  <div
+    :class="{ content: true, 'content-when-sidebar-open': sidebarOpen }"
+    ref="content"
+  >
     <CreateDialog />
     <AccountNoAndRegion v-if="isK2ScriptSelected" />
     <div class="tiles-container">
@@ -25,6 +28,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      sidebarOpen: true,
+    };
+  },
   created() {
     this.$nuxt.$on("hamburger-button-click", this.toggleContentPosition);
   },
@@ -69,11 +77,7 @@ export default {
       return tiles;
     },
     toggleContentPosition() {
-      if (this.$refs.content.style.marginLeft != "0rem") {
-        this.$refs.content.style.marginLeft = "0rem";
-      } else {
-        this.$refs.content.style.marginLeft = "16rem";
-      }
+      this.sidebarOpen = !this.sidebarOpen;
     },
     generateURL(baseURL) {
       const regionCode = this.$store.state.appLogic.selectedRegion.code;
@@ -87,13 +91,14 @@ export default {
 <style scoped>
 .content {
   margin-top: 4rem;
-  margin-left: 16rem;
+  margin-left: 0rem;
   padding-top: 2rem;
   padding-left: 0.5rem;
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  align-content: center;
   justify-content: flex-start;
   align-content: flex-start;
   background-color: #f9f9f9;
@@ -102,22 +107,30 @@ export default {
   transition: ease-in-out, all 0.3s ease-in-out;
 }
 
+.content-when-sidebar-open {
+  margin-left: 16rem;
+}
+
 .tiles-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
+  width: 100%;
 }
 
 @media (max-width: 30rem) {
   .content {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    align-content: center;
-    grid-template-columns: 100vw;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: center;
+    align-content: flex-start;
+    align-items: flex-start;
+
+    margin-left: 0rem;
+    width: 100%;
+  }
+  .tiles-container {
+    flex-direction: row;
   }
 }
 </style>
