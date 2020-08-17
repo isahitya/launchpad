@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  middleware: "auth",
   fetch() {},
 };
 </script>

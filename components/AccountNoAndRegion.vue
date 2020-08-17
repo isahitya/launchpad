@@ -61,7 +61,7 @@ export default {
   padding-left: 0.5rem;
   border-radius: 5px;
   border: 1px solid rgb(221, 221, 221);
-  background-color: #ffffff;
+  background-color: #f2f3f4;
   /* background-color: #f2f3f4; */
   outline: none;
   border-radius: 3px;

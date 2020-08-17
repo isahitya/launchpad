@@ -169,6 +169,7 @@ export default {
   margin-top: 3.7rem;
   padding-top: 1rem;
   top: 0rem;
+  left: 0rem;
   display: flex;
   position: fixed;
   width: 16rem;
@@ -176,9 +177,10 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: #fafafa;
   visibility: visible;
   transition: ease-in-out, all 0.3s ease-in-out;
+  box-shadow: inset 0px -0.5px 10px rgba(0, 0, 0, 0.5);
   /* box-shadow: 1.5px 2px 2px 1px rgb(0, 0, 0, 0.2); */
 }
 

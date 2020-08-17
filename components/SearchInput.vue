@@ -17,32 +17,6 @@
         @click="closeButtonClick()"
       ></div>
     </div>
-    <!-- <div
-      :class="{
-        'search-responsive-container': true,
-        'search-responsive-container-open': showResponsiveSearchInput,
-      }"
-    >
-      <div
-        class="search-icon"
-        ref="searchResponsiveIcon"
-        @click="searchResponsiveButtonClick()"
-      ></div>
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Search your apps"
-        ref="searchResponsiveInput"
-        v-model="searchFilter"
-        @focus="searchResponsiveInputFocus"
-        @blur="searchSearchResponsiveInputBlur"
-      />
-      <div
-        class="close-icon"
-        ref="searchResponsiveCloseIcon"
-        @click="closeResponsiveButtonClick()"
-      ></div>
-    </div> -->
   </div>
 </template>
 
@@ -81,15 +55,6 @@ export default {
       //TODO: prevent search input blur
       this.clearSearchInput();
     },
-    // searchResponsiveButtonClick() {
-    //   console.log(this.$refs.searchResponsiveInput);
-    //   // if (this.$refs.searchResponsiveInput.hasfocus()) {
-    //   //   this.$refs.searchResponsiveInput.blur();
-    //   // } else {
-    //   //   this.$refs.searchResponsiveInput.focus();
-    //   // }
-    //   this.showResponsiveSearchInput = !this.showResponsiveSearchInput;
-    // },
   },
 };
 </script>
@@ -97,7 +62,7 @@ export default {
 <style>
 .search-container {
   position: relative;
-  margin-left: 2rem;
+  margin-left: 1.78rem;
   margin-right: 3rem;
   width: 30rem;
   transition: all 0.2s linear;
@@ -177,35 +142,5 @@ export default {
   .close-icon {
     right: 1rem;
   }
-
-  /* .search-responsive-container {
-    top: 0rem;
-    margin-right: 1rem;
-    display: initial;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-left: 4rem;
-    height: 3.7rem;
-  }
-  .search-responsive-container .search-input {
-    visibility: hidden;
-    width: 100%;
-    margin-right: 0rem;
-    background: #ffffff;
-  }
-
-  .search-responsive-container .search-icon {
-    right: 1rem;
-    margin: 0rem;
-  }
-  .search-responsive-container-open {
-    width: 100%;
-    left: 0rem;
-    margin: 0rem;
-  }
-  .search-responsive-container-open .search-input {
-    visibility: visible;
-  } */
 }
 </style>

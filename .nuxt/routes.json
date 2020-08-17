@@ -1,5 +1,19 @@
 [
   {
+    "name": "login",
+    "path": "/login",
+    "component": "/home/sahitya/TM/csseg/launchpad/launchpad/pages/login.vue",
+    "chunkName": "pages/login",
+    "_name": "_55e67d9e"
+  },
+  {
+    "name": "register",
+    "path": "/register",
+    "component": "/home/sahitya/TM/csseg/launchpad/launchpad/pages/register.vue",
+    "chunkName": "pages/register",
+    "_name": "_d4d203ea"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/home/sahitya/TM/csseg/launchpad/launchpad/pages/index.vue",

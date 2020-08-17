@@ -2,6 +2,13 @@ import axios from "axios";
 
 let apiLogic = {
   apiURL: "http://localhost:5000",
+  requestOptions: {
+    withCredentials: true,
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  },
   async addTile(tile) {
     try {
       let tileFormData = new FormData();
@@ -11,7 +18,7 @@ let apiLogic = {
         } else tileFormData.append(key, tile[key]);
       }
 
-      let response = await axios.post(this.apiURL + "/addTile", tileFormData);
+      let response = await axios.post(this.apiURL + "/tile", tileFormData);
       console.log(response);
       return { tileId: response.data.tileId, iconURL: response.data.iconURL };
     } catch (err) {
@@ -20,14 +27,14 @@ let apiLogic = {
     }
   },
   getK2Scripts() {
-    return axios.get(this.apiURL + "/getK2Scripts");
+    return axios.get(this.apiURL + "/k2Script", this.requestOptions);
   },
   getSections() {
-    return axios.get(this.apiURL + "/getSections");
+    return axios.get(this.apiURL + "/section", this.requestOptions);
   },
   async addSection(section) {
     try {
-      const response = await axios.post("http://localhost:5000/addSection", {
+      const response = await axios.post(this.apiURL + "/section", {
         name: section.name,
         iconURL: section.iconURL,
       });
@@ -36,6 +43,19 @@ let apiLogic = {
     } catch (err) {
       console.log(err.message);
       return null;
+    }
+  },
+  async registerUser(user) {
+    try {
+      const response = await axios.post(
+        this.apiURL + "/register",
+        user,
+        this.requestOptions
+      );
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
     }
   },
 };

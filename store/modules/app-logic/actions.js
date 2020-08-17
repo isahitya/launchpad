@@ -1,19 +1,8 @@
 import axios from "axios";
+import { Route53Resolver } from "aws-sdk";
 
 export default {
-  async nuxtServerInit(vuexContext, context) {
-    try {
-      let sectionsResponse = await this.$apiLogic.getSections();
-      let k2ScriptsResponse = await this.$apiLogic.getK2Scripts();
-      vuexContext.commit("initializeAppData", {
-        sections: sectionsResponse.data,
-        k2Scripts: k2ScriptsResponse.data,
-      });
-    } catch (err) {
-      console.log("Cannot load data from server");
-      console.log(err); //TODO: redirect to error page with appropriate message
-    }
-  },
+  async nuxtServerInit(vuexContext, context) {},
   setSearchFilter(vuexContext, searchFilter) {
     vuexContext.commit("setSearchFilter", searchFilter);
   },
@@ -55,6 +44,33 @@ export default {
       });
     } catch (err) {
       console.log(err);
+    }
+  },
+  async registerUserWithEmail(vuexContext, user) {
+    try {
+      const response = await this.$apiLogic.registerUser(user);
+      if (!response) {
+        throw "Some error occured";
+      }
+      console.log("User registered and logged in");
+      $nuxt.$router.replace({ path: "/" });
+    } catch (err) {
+      console.log(err);
+      $nuxt.$router.replace({ path: "/register" });
+    }
+  },
+  async loadIndexPage(vuexContext, user) {
+    try {
+      let sectionsResponse = await this.$apiLogic.getSections();
+      let k2ScriptsResponse = await this.$apiLogic.getK2Scripts();
+      vuexContext.commit("initializeAppData", {
+        sections: sectionsResponse.data,
+        k2Scripts: k2ScriptsResponse.data,
+      });
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
     }
   },
 };

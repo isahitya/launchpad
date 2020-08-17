@@ -90,7 +90,7 @@ export default {
 
 <style scoped>
 .content {
-  margin-top: 4rem;
+  margin-top: 3.5rem;
   margin-left: 0rem;
   padding-top: 2rem;
   padding-left: 0.5rem;
@@ -101,14 +101,19 @@ export default {
   align-content: center;
   justify-content: flex-start;
   align-content: flex-start;
-  background-color: #f9f9f9;
-  width: calc(100vw - 16rem);
-  min-height: calc(100vh - 5.7rem);
+  /* background-color: #f9f9f9; */
+  background-color: #ffffff;
+  width: 100vw;
+  padding-right: 16rem;
+  min-height: calc(100vh);
   transition: ease-in-out, all 0.3s ease-in-out;
+  /* box-shadow: 20px 20px 20px 15px rgb(0, 0, 0, 0.6); */
 }
 
 .content-when-sidebar-open {
   margin-left: 16rem;
+  width: calc(100vw - 16rem);
+  padding-right: 0rem;
 }
 
 .tiles-container {
