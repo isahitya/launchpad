@@ -5,10 +5,13 @@
       :class="{ 'show-register-form': showRegisterForm }"
     >
       <div class="register-options">
-        <div class="register-options__button md-elevation-2">
+        <a
+          class="register-options__button md-elevation-2"
+          :href="googleAuthURL"
+        >
           <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
           <h1>Continue with Google</h1>
-        </div>
+        </a>
         <div class="register-options__button md-elevation-2">
           <img src="https://img.icons8.com/ios-glyphs/60/000000/github.png" />
           <h1>Continue with Github</h1>
@@ -81,6 +84,12 @@
 
 <script>
 export default {
+  computed: {
+    googleAuthURL() {
+      //return this.$store.getters.apiURL + "/auth/google";
+      return this.$nuxt.$apiLogic.apiURL + "/auth/google";
+    },
+  },
   data() {
     return {
       showRegisterForm: false,
@@ -99,6 +108,9 @@ export default {
     registerButtonClicked() {
       this.$store.dispatch("registerUserWithEmail", this.user);
     },
+    // continueWithGoogleClicked() {
+    //   this.$store.dispatch("continueWithGoogle");
+    // },
   },
 };
 </script>
@@ -145,6 +157,7 @@ export default {
 }
 
 .register-options__button {
+  text-decoration: none !important;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -165,6 +178,7 @@ export default {
 }
 
 .register-options__button h1 {
+  text-decoration: none !important;
   font-weight: 300;
   color: rgb(26, 26, 26);
   font-size: 1.1rem;

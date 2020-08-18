@@ -34,10 +34,14 @@ let apiLogic = {
   },
   async addSection(section) {
     try {
-      const response = await axios.post(this.apiURL + "/section", {
-        name: section.name,
-        iconURL: section.iconURL,
-      });
+      const response = await axios.post(
+        this.apiURL + "/section",
+        {
+          name: section.name,
+          iconURL: section.iconURL,
+        },
+        this.requestOptions
+      );
       console.log(response);
       return response.data.sectionId;
     } catch (err) {
@@ -49,6 +53,19 @@ let apiLogic = {
     try {
       const response = await axios.post(
         this.apiURL + "/register",
+        user,
+        this.requestOptions
+      );
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  },
+  async loginUser(user) {
+    try {
+      const response = await axios.post(
+        this.apiURL + "/login",
         user,
         this.requestOptions
       );

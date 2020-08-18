@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Route53Resolver } from "aws-sdk";
 
 export default {
   async nuxtServerInit(vuexContext, context) {},
@@ -59,6 +58,7 @@ export default {
       $nuxt.$router.replace({ path: "/register" });
     }
   },
+
   async loadIndexPage(vuexContext, user) {
     try {
       let sectionsResponse = await this.$apiLogic.getSections();
@@ -71,6 +71,18 @@ export default {
     } catch (err) {
       console.log(err);
       return false;
+    }
+  },
+  async loginUserWithEmail(vuexContext, user) {
+    try {
+      let loggedIn = await this.$apiLogic.loginUser(user);
+      if (loggedIn) {
+        return $nuxt.$router.replace({ path: "/" });
+      } else {
+        return false;
+      }
+    } catch (err) {
+      console.log(err);
     }
   },
 };

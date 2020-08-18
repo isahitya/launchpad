@@ -47,7 +47,6 @@
         </md-field>
       </md-tab>
     </md-tabs>
-
     <md-dialog-actions>
       <md-button class="md-primary" @click="closeButtonClicked()"
         >Close</md-button
@@ -155,3 +154,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.create-dialog .md-field {
+  margin-bottom: 0.2rem;
+}
+</style>
