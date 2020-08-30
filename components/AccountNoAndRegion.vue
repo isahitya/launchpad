@@ -31,13 +31,13 @@ export default {
         return this.$store.state.appLogic.accountNo;
       },
       set(value) {
-        this.$store.commit("setAccountNo", value);
+        this.$store.commit("appLogic/setAccountNo", value);
       },
     },
   },
   methods: {
     regionSelected(event) {
-      this.$store.dispatch("setSelectedRegion", event.target.value);
+      this.$store.dispatch("appLogic/setSelectedRegion", event.target.value);
     },
   },
 };

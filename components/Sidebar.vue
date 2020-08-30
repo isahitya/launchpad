@@ -120,20 +120,20 @@ export default {
   },
   methods: {
     getTileCount(sectionId) {
-      return this.$store.getters.tileCount(sectionId);
+      return this.$store.getters["appLogic/tileCount"](sectionId);
     },
     homeSectionClicked() {
-      this.$store.state.appLogic.homeSectionSelected = true;
-      this.$store.dispatch("setSearchFilter", "");
-      this.$store.dispatch("setSelectedSection", null);
+      this.$store.dispatch("appLogic/setHomeSectionSelected", true);
+      this.$store.dispatch("appLogic/setSearchFilter", "");
+      this.$store.dispatch("appLogic/setSelectedSection", null);
       if (this.$mq == "sm") {
         $nuxt.$emit("hamburger-button-click");
       }
     },
     sidebarItemSelected(itemId) {
-      this.$store.state.appLogic.homeSectionSelected = false;
-      this.$store.dispatch("setSearchFilter", "");
-      this.$store.dispatch("setSelectedSection", itemId);
+      this.$store.dispatch("appLogic/setHomeSectionSelected", false);
+      this.$store.dispatch("appLogic/setSearchFilter", "");
+      this.$store.dispatch("appLogic/setSelectedSection", itemId);
       if (this.$mq == "sm") {
         $nuxt.$emit("hamburger-button-click");
       }

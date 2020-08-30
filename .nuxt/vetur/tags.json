@@ -23,6 +23,12 @@
   "LazyNavbar": {
     "description": "Auto imported from components/Navbar.vue"
   },
+  "PopoverMenu": {
+    "description": "Auto imported from components/PopoverMenu.vue"
+  },
+  "LazyPopoverMenu": {
+    "description": "Auto imported from components/PopoverMenu.vue"
+  },
   "SearchInput": {
     "description": "Auto imported from components/SearchInput.vue"
   },

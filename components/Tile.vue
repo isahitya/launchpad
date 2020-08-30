@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     showK2Tile() {
-      return this.$store.getters.isK2ScriptSelected;
+      return this.$store.getters["appLogic/isK2ScriptSelected"];
     },
   },
 };

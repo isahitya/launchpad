@@ -109,7 +109,7 @@ export default {
         alert("Please enter section name");
         return;
       }
-      this.$store.dispatch("addSection", {
+      this.$store.dispatch("appLogic/addSection", {
         name: this.sectionName,
         iconURL: this.sectionIconURL,
       });
@@ -134,7 +134,7 @@ export default {
           ? this.tileURL
           : "https://" + this.tileURL;
 
-      this.$store.dispatch("addTile", {
+      this.$store.dispatch("appLogic/addTile", {
         name: this.tileName,
         url: this.tileURL,
         sectionId: this.tileSectionId,

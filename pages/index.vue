@@ -13,8 +13,12 @@
 
 <script>
 export default {
-  middleware: "auth",
-  fetch() {},
+  middleware: "loadData",
+  created() {
+    this.$apiLogic.getSections().then((s) => {
+      console.log(s);
+    });
+  },
 };
 </script>
 

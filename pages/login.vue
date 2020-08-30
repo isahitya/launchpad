@@ -23,9 +23,19 @@
           ></md-input>
         </md-field>
         <div class="login-form__buttons-container">
-          <md-button @click="loginButtonClicked()" class="md-raised md-primary"
+          <md-button
+            @click="loginButtonClicked()"
+            style="margin-left:0rem"
+            class="md-raised md-primary"
             >Login</md-button
           >
+        </div>
+        <div>
+          <h1 class="login-card__subheading">
+            <nuxt-link to="/register"
+              >Register / Continue with other options</nuxt-link
+            >
+          </h1>
         </div>
       </form>
     </div>
@@ -45,7 +55,17 @@ export default {
   },
   methods: {
     loginButtonClicked() {
-      this.$store.dispatch("loginUserWithEmail", this.user);
+      // this.$store.dispatch("appLogic/loginUserWithEmail", this.user);
+      this.$auth
+        .loginWith("local", {
+          data: {
+            username: this.user.username,
+            password: this.user.password,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -65,7 +85,7 @@ export default {
   justify-content: center;
   overflow: hidden;
   width: 35%;
-  height: 19.5rem;
+  height: 20.5rem;
   min-width: 30rem;
   padding-left: 3.5rem;
   padding-right: 3.5rem;
@@ -73,6 +93,12 @@ export default {
   padding-bottom: 2.5rem;
   border-radius: 0.2rem;
   transition: ease-in-out, all 0.3s ease-in-out;
+}
+
+.login-card__subheading {
+  margin-top: 1rem;
+  font-weight: 300;
+  font-size: 1rem;
 }
 
 .show-login-form {
@@ -128,6 +154,7 @@ export default {
 
 .login__headline {
   align-self: flex-start;
+  margin-top: 0.5rem;
 }
 
 .login-form {

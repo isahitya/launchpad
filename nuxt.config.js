@@ -80,10 +80,54 @@ export default {
       },
     ],
     "@nuxtjs/axios",
+    "@nuxtjs/auth",
   ],
-  /*
-   ** Build configuration
-   ** See https://nuxtjs.org/api/configuration-build/
-   */
+
+  auth: {
+    redirect: {
+      login: "/register", // User will be redirected to this path if login is required.
+      home: "/", // User will be redirect to this path after login. (rewriteRedirects will rewrite this path)
+      logout: "/register", // User will be redirected to this path if after logout, current route is protected.
+      user: "/user",
+      callback: "/",
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/login",
+            method: "post",
+            propertyName: "token",
+          },
+          logout: { url: "/logout", method: "post" },
+          user: { url: "/user", method: "get", propertyName: "user" },
+        },
+        tokenRequired: false, //True by default
+        tokenType: false, // "bearer"
+        // globalToken: true,
+        // autoFetchUser: true
+      },
+      // cookie: {
+      //   options: {
+      //     secure: false,
+      //   },
+      // },
+    },
+  },
+  axios: {
+    baseURL: "http://localhost:5000/",
+    credentials: true,
+    init(axios) {
+      axios.defaults.withCredentials = true;
+    },
+  },
+
   build: {},
+  // axios: {
+  //   credentials: true,
+  //   init(axios) {
+  //     axios.defaults.withCredentials = true;
+  //   },
+  // },
+  // serverMiddleware: ["~/api"],
 };

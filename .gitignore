@@ -20,3 +20,6 @@ newrelic_agent.log
 
 # @nuxtjs/pwa
 sw.*
+
+# dotenv
+.env

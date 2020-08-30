@@ -22,6 +22,11 @@ Component will generate :
     <SearchInput />
     <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
     <img class="profile-image " src="~/assets/profile_image.jpeg" />
+    <div class="logout-button" @click="$auth.logout()">
+      <img src="https://img.icons8.com/ios/50/000000/export.png" />
+      <h1>Logout</h1>
+    </div>
+    <!-- <PopoverMenu /> -->
   </header>
 </template>
 
@@ -69,6 +74,30 @@ i.fa-refresh {
   margin-top: 0rem;
 
   margin-right: 2rem;
+}
+
+.logout-button {
+  cursor: pointer;
+  margin-right: 0.5rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 5.7rem;
+  height: 2rem;
+  /* background-color: rgb(250, 250, 250);
+   */
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
+}
+
+.logout-button h1 {
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.logout-button img {
+  height: 1.4rem;
+  width: 1.4rem;
 }
 
 .hero {

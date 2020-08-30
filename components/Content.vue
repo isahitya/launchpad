@@ -41,7 +41,7 @@ export default {
       return this.$store.state.appLogic.homeSectionSelected;
     },
     isK2ScriptSelected() {
-      return this.$store.getters.isK2ScriptSelected;
+      return this.$store.getters["appLogic/isK2ScriptSelected"];
     },
     tilesToDisplay() {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();

@@ -12,14 +12,17 @@
           <img src="https://img.icons8.com/color/48/000000/google-logo.png" />
           <h1>Continue with Google</h1>
         </a>
-        <div class="register-options__button md-elevation-2">
+        <a
+          class="register-options__button md-elevation-2"
+          :href="githubAuthURL"
+        >
           <img src="https://img.icons8.com/ios-glyphs/60/000000/github.png" />
           <h1>Continue with Github</h1>
-        </div>
-        <div class="register-options__button md-elevation-2">
+        </a>
+        <a class="register-options__button md-elevation-2">
           <img src="https://img.icons8.com/color/96/000000/linkedin.png" />
           <h1>Continue with Linkedin</h1>
-        </div>
+        </a>
         <div class="register-options__separator"></div>
         <div
           class="register-options__button md-elevation-2"
@@ -27,6 +30,12 @@
         >
           <img src="https://img.icons8.com/ios/100/000000/important-mail.png" />
           <h1>Sign Up with Email</h1>
+        </div>
+        <div>
+          <h1 class="register-options__subheading">
+            Already signed up?
+            <nuxt-link to="/login" style="font-weight:400">Log in</nuxt-link>
+          </h1>
         </div>
       </div>
       <form class="register-form">
@@ -89,6 +98,9 @@ export default {
       //return this.$store.getters.apiURL + "/auth/google";
       return this.$nuxt.$apiLogic.apiURL + "/auth/google";
     },
+    githubAuthURL() {
+      return this.$nuxt.$apiLogic.apiURL + "/auth/github";
+    },
   },
   data() {
     return {
@@ -106,10 +118,10 @@ export default {
       this.showRegisterForm = !this.showRegisterForm;
     },
     registerButtonClicked() {
-      this.$store.dispatch("registerUserWithEmail", this.user);
+      this.$store.dispatch("appLogic/registerUserWithEmail", this.user);
     },
     // continueWithGoogleClicked() {
-    //   this.$store.dispatch("continueWithGoogle");
+    //   this.$store.dispatch("appLogic/continueWithGoogle");
     // },
   },
 };
@@ -129,7 +141,7 @@ export default {
   justify-content: center;
   overflow: hidden;
   width: 35%;
-  height: 19.5rem;
+  height: 21rem;
   min-width: 30rem;
   padding-left: 3.5rem;
   padding-right: 3.5rem;
@@ -190,6 +202,11 @@ export default {
   height: 1px;
   width: 100%;
   border-bottom: 1px solid rgb(165, 165, 165);
+}
+
+.register-options__subheading {
+  font-size: 1rem;
+  font-weight: 300;
 }
 
 .register__headline {

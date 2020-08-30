@@ -33,13 +33,13 @@ export default {
         return this.$store.state.appLogic.searchFilter;
       },
       set(value) {
-        this.$store.dispatch("setSearchFilter", value);
+        this.$store.dispatch("appLogic/setSearchFilter", value);
       },
     },
   },
   methods: {
     clearSearchInput() {
-      this.$store.dispatch("setSearchFilter", "");
+      this.$store.dispatch("appLogic/setSearchFilter", "");
     },
     searchInputFocus() {
       this.$refs.searchCloseIcon.style.visibility = "visible";

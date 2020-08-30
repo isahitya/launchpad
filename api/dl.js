@@ -7,6 +7,8 @@ mongoose.connect("mongodb://localhost:27017/launchpadDB", {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
+mongoose.set("useCreateIndex", true);
+mongoose.set("useFindAndModify", false);
 
 const sectionSchema = new mongoose.Schema({
   name: String,
@@ -27,9 +29,12 @@ const userSchema = new mongoose.Schema({
   lastName: String,
   username: String,
   googleId: String,
+  githubId: String,
   password: String,
   sections: Array,
   k2Scripts: Array,
+  activities: Array,
+  newTileId: Number,
 });
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
@@ -42,6 +47,12 @@ const User = mongoose.model("User", userSchema);
 // module.exports.User = User;
 // module.exports.userSchema = userSchema;
 
+const metaSchema = new mongoose.Schema({
+  newTileId: Number,
+  name: String,
+});
+const Meta = mongoose.model("Meta", metaSchema);
+
 module.exports = {
   Section,
   sectionSchema,
@@ -49,4 +60,6 @@ module.exports = {
   k2ScriptSchema,
   User,
   userSchema,
+  Meta,
+  metaSchema,
 };
