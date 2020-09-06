@@ -1,17 +1,54 @@
 <template>
-  <div class="popover-menu">
+  <div
+    class="popover-menu"
+    :class="{ 'hide-popover-menu': hidePopoverMenu }"
+    id="popover-menu"
+  >
     <!-- <div class="popover-menu__tip"></div> -->
     <div class="popover-menu__content">
-      <div class="popover-menu__content-item">
+      <div class="popover-menu__content-item" @click="$auth.logout()">
         <img src="https://img.icons8.com/ios/50/000000/export.png" />
         <h1>Logout</h1>
+      </div>
+      <div class="popover-menu__content-item" @click="showEditMode()">
+        <img src="https://img.icons8.com/material/24/000000/edit--v1.png" />
+        <h1>Edit</h1>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      hidePopoverMenu: true,
+    };
+  },
+  created() {
+    this.$nuxt.$on("toggle-popover-menu", () => {
+      this.hidePopoverMenu = !this.hidePopoverMenu;
+    });
+  },
+  beforeMount() {
+    window.addEventListener("click", (e) => {
+      if (!document.getElementById("popover-menu").contains(e.target)) {
+        //Clicked outside pop-overmenu, close
+        if (document.getElementById("user-avatar").contains(e.target)) {
+          //Clicked on user-avatar, don't close
+          return;
+        }
+        this.hidePopoverMenu = true;
+      }
+    });
+  },
+  methods: {
+    showEditMode() {
+      this.$nuxt.$emit("toggle-edit-mode");
+      this.$nuxt.$emit("toggle-popover-menu");
+    },
+  },
+};
 </script>
 
 <style>
@@ -19,6 +56,10 @@ export default {};
   position: absolute;
   right: 2rem;
   top: 3.8rem;
+}
+
+.hide-popover-menu {
+  display: none;
 }
 
 .popover-menu__tip {
@@ -53,21 +94,23 @@ export default {};
 }
 
 .popover-menu__content-item {
+  cursor: pointer;
   height: 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   margin-left: 1rem;
   margin-right: 1rem;
 }
 
 .popover-menu__content-item img {
   height: 1rem;
+  margin-left: 0.5rem;
 }
 
 .popover-menu__content-item h1 {
   margin: 0px;
-  margin-left: 0.5rem;
+  margin-left: 1rem;
   font-size: 1rem;
   font-weight: 300;
 }

@@ -10,18 +10,7 @@
     <CreateDialog />
     <AccountNoAndRegion v-if="isK2ScriptSelected" />
     <div class="tiles-container">
-      <a
-        style="text-decoration:none"
-        v-for="tile in tilesToDisplay"
-        :key="tile.id"
-        :href="isK2ScriptSelected ? generateURL(tile.url) : tile.url"
-      >
-        <Tile
-          :name="tile.name"
-          :iconURL="tile.iconURL"
-          :text="tile.description ? tile.description : ''"
-        />
-      </a>
+      <Tile v-for="tile in tilesToDisplaySorted" :key="tile.id" :data="tile" />
     </div>
   </div>
 </template>
@@ -42,6 +31,10 @@ export default {
     },
     isK2ScriptSelected() {
       return this.$store.getters["appLogic/isK2ScriptSelected"];
+    },
+    tilesToDisplaySorted() {
+      //return this.tilesToDisplay.sort((a, b) => a.name < b.name);
+      return this.tilesToDisplay;
     },
     tilesToDisplay() {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();

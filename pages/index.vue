@@ -14,11 +14,6 @@
 <script>
 export default {
   middleware: "loadData",
-  created() {
-    this.$apiLogic.getSections().then((s) => {
-      console.log(s);
-    });
-  },
 };
 </script>
 

@@ -1,4 +1,5 @@
 require("dotenv").config();
+const metafetch = require("metafetch");
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -100,6 +101,7 @@ passport.use(
               username: profile.id,
               sections: [],
               k2Scripts: [],
+              newTileId: 1,
             });
             user.save(function(err) {
               if (err) console.log(err);
@@ -138,6 +140,7 @@ passport.use(
               username: profile.id,
               sections: [],
               k2Scripts: [],
+              newTileId: 1,
             });
             user.save(function(err) {
               if (err) console.log(err);
@@ -246,6 +249,7 @@ app.post("/register", (req, res, next) => {
       // k2Scripts: gk.genK2Scripts(),
       sections: [],
       k2Scripts: [],
+      newTileId: 1,
     },
     req.body.password,
     function(err, user) {
@@ -290,7 +294,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/logout", (req, res) => {
   req.logout();
-  logActivity({ userId: req.user.username, action: actions.LOGOUT });
+  //  logActivity({ userId: req.user.username, action: actions.LOGOUT }); Can't get username
   res.status(200).send();
 });
 
@@ -338,12 +342,6 @@ app.get(
 
 app.get("/section", async (req, res) => {
   console.log("Get sections called");
-  // console.log("Cookie ->");
-  // console.log(req.session.cookie);
-  // console.log("sessionID - ");
-  // console.log(req.sessionID);
-  // console.log("Req.user -");
-  // console.log(req.user);
 
   try {
     if (req.isAuthenticated()) {
@@ -408,10 +406,31 @@ app.post("/section", async (req, res) => {
   }
 });
 
+async function fetchPageName(url) {
+  let name = null;
+  const meta = await metafetch.fetch(url);
+  if (meta.siteName) {
+    name = meta.siteName;
+  } else if (meta.keywords) {
+    name = meta.keywords.split(",")[0];
+  } else if (meta.Keywords) {
+    name = meta.Keywords.split(",")[0];
+  } else if (meta.meta.keywords) {
+    name = meta.meta.keywords.split(",")[0];
+  } else if (meta.meta.Keywords) {
+    name = meta.meta.Keywords.split(",")[0];
+  } else if (meta.title) {
+    name = meta.title;
+  } else if (meta.url) {
+    name = meta.url;
+  }
+  return name;
+}
+
 app.post("/tile", upload.single("appIcon"), async (req, res) => {
   console.log("Add tile request");
-  let { sectionId, ...newTile } = req.body;
   try {
+    let { sectionId, ...newTile } = req.body;
     let section = req.user.sections.find((s) => s.id == sectionId);
     if (!section) {
       throw "No such section";
@@ -420,12 +439,14 @@ app.post("/tile", upload.single("appIcon"), async (req, res) => {
     const newTileId = (
       await User.findOneAndUpdate(
         { username: req.user.username },
-        { $inc: { newTileId: 1 } }
+        { $inc: { newTileId: 1 } },
+        { returnOriginal: false }
       )
     ).newTileId;
+    //Tile ID
     const tileId = "t_" + newTileId;
     newTile.id = tileId;
-
+    //Tile icon either from url or file
     if (!newTile.iconURL || newTile.iconURL == "") {
       newTile.iconURL =
         "https://www.google.com/s2/favicons?sz=128&domain_url=" + newTile.url;
@@ -433,11 +454,18 @@ app.post("/tile", upload.single("appIcon"), async (req, res) => {
     if (req.file) {
       newTile.iconURL = serverBaseURL + "/" + req.file.filename;
     }
-
-    const user = await User.findById(req.user._id);
-    if (!user) {
-      throw "No such user";
+    //Tile name from page meta if not given by user
+    if (!newTile.name || newTile.iconURL == "") {
+      try {
+        const name = await fetchPageName(newTile.url);
+        newTile.name = name != null && name != "" ? name : newTile.url;
+      } catch (err) {
+        console.log(err);
+        console.log("Could not fetch page name");
+        newTile.name = newTile.url;
+      }
     }
+
     const success = await User.update(
       { _id: req.user._id, "sections.id": sectionId },
       { $push: { "sections.$.tiles": newTile } }
@@ -445,7 +473,12 @@ app.post("/tile", upload.single("appIcon"), async (req, res) => {
     if (!success) {
       throw "Couldn't add app";
     }
-    res.json({ tileId: newTile.id, iconURL: newTile.iconURL });
+
+    res.json({
+      tileId: newTile.id,
+      iconURL: newTile.iconURL,
+      name: newTile.name,
+    });
     res.send();
     logActivity({
       userId: req.user.username,
@@ -456,6 +489,24 @@ app.post("/tile", upload.single("appIcon"), async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: err });
+  }
+});
+
+app.delete("/tile", async (req, res) => {
+  console.log("Delete tile called");
+  console.log(req.body);
+  try {
+    const success = await User.update(
+      { _id: req.user._id, "sections.id": req.body.sectionId },
+      { $pull: { "sections.$.tiles": { id: req.body.id } } }
+    );
+    if (!success) {
+      throw "Could not remove tile";
+    }
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
   }
 });
 

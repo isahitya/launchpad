@@ -16,6 +16,9 @@ let apiLogic = {
     try {
       let tileFormData = new FormData();
       for (let key in tile) {
+        //Creating tile form data from tile object
+        //if normal field, add it as it is
+        //if tile icon file, add it as appIcon
         if (tile[key] instanceof File) {
           tileFormData.append("appIcon", tile[key], tile[key].name);
         } else tileFormData.append(key, tile[key]);
@@ -27,7 +30,24 @@ let apiLogic = {
         this.jsonRequestOptions
       );
       console.log(response);
-      return { tileId: response.data.tileId, iconURL: response.data.iconURL };
+      return {
+        tileId: response.data.tileId,
+        iconURL: response.data.iconURL,
+        name: response.data.name,
+      };
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  },
+  async deleteTile(tile) {
+    try {
+      let response = await axios.delete(this.apiURL + "/tile", {
+        headers: this.jsonRequestOptions,
+        data: tile,
+      });
+      console.log(response);
+      return true;
     } catch (err) {
       console.log(err);
       return false;

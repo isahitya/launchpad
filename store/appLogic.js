@@ -104,6 +104,15 @@ export const mutations = {
     };
     section.tiles.push(newTile);
   },
+  removeTile(state, data) {
+    console.log("Remove tile called");
+    const section = state.sections.find((s) => s.id == data.sectionId);
+    if (!section) {
+      console.log("No such section to remove tile from");
+      return;
+    }
+    section.tiles = section.tiles.filter((t) => t.id != data.id);
+  },
 
   initializeAppData(state, data) {
     state.sections = data.sections;
@@ -136,7 +145,36 @@ export const actions = {
       }
       tile.iconURL = response.iconURL;
       tile.id = response.tileId;
+      tile.name = response.name;
       vuexContext.commit("addTile", tile);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async deleteTile(vuexContext, tile) {
+    try {
+      //Fetching sectionid of tile
+      const sections = vuexContext.state.sections;
+      const section = sections.find((s) =>
+        s.tiles.some((t) => t.id == tile.id)
+      );
+      if (!section) {
+        throw "No such tile in any section";
+      }
+      let response = await this.$apiLogic.deleteTile({
+        id: tile.id,
+        sectionId: section.id,
+      });
+      // if (!response) {
+      //   console.log("Couldn't delete tile");
+      //   return;
+      // }
+      //Remove tile from store
+      console.log("Tile deleted, removing from store");
+      vuexContext.commit("removeTile", {
+        id: tile.id,
+        sectionId: section.id,
+      });
     } catch (err) {
       console.log(err);
     }

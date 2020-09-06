@@ -21,12 +21,17 @@ Component will generate :
     </div>
     <SearchInput />
     <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
-    <img class="profile-image " src="~/assets/profile_image.jpeg" />
-    <div class="logout-button" @click="$auth.logout()">
+    <img
+      class="user-avatar "
+      id="user-avatar"
+      src="~/assets/profile_image.jpeg"
+      @click="togglePopoverMenu()"
+    />
+    <!-- <div class="logout-button" @click="$auth.logout()">
       <img src="https://img.icons8.com/ios/50/000000/export.png" />
       <h1>Logout</h1>
-    </div>
-    <!-- <PopoverMenu /> -->
+    </div> -->
+    <PopoverMenu />
   </header>
 </template>
 
@@ -35,6 +40,9 @@ export default {
   methods: {
     hamburgerButtonClick() {
       $nuxt.$emit("hamburger-button-click");
+    },
+    togglePopoverMenu() {
+      $nuxt.$emit("toggle-popover-menu");
     },
   },
 };
@@ -68,7 +76,8 @@ i.fa-refresh {
   margin-right: 2rem;
 }
 
-.profile-image {
+.user-avatar {
+  cursor: pointer;
   width: 2.5rem;
   border-radius: 50%;
   margin-top: 0rem;

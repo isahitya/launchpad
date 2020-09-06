@@ -119,10 +119,10 @@ export default {
         alert("Please select a section");
         return;
       }
-      if (this.tileName.length == 0) {
-        alert("Please enter application name");
-        return;
-      }
+      // if (this.tileName.length == 0) {
+      //   alert("Please enter application name");
+      //   return;
+      // }
       if (this.tileURL.length == 0) {
         alert("Please enter application URL");
         return;
