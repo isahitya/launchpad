@@ -4,7 +4,7 @@ import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
 import { createRouter } from './router.js'
 import NuxtChild from './components/nuxt-child.js'
-import NuxtError from '../layouts/error.vue'
+import NuxtError from './components/nuxt-error.vue'
 import Nuxt from './components/nuxt.js'
 import App from './App.js'
 import { setContext, getLocation, getRouteData, normalizeError } from './utils'
@@ -12,8 +12,12 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_fe498ba4 from 'nuxt_plugin_plugin_fe498ba4' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_categoriesdata_24a66952 from 'nuxt_plugin_categoriesdata_24a66952' // Source: ../plugins/categories-data.js (mode: 'all')
+import nuxt_plugin_plugin_5c0db215 from 'nuxt_plugin_plugin_5c0db215' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_axios_7b4294ab from 'nuxt_plugin_axios_7b4294ab' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_nuxtmq_0a9516f3 from 'nuxt_plugin_nuxtmq_0a9516f3' // Source: ./nuxt-mq.js (mode: 'all')
+import nuxt_plugin_vuematerial_477a9902 from 'nuxt_plugin_vuematerial_477a9902' // Source: ./vue-material.js (mode: 'all')
+import nuxt_plugin_apiLogic_585c88dd from 'nuxt_plugin_apiLogic_585c88dd' // Source: ../plugins/apiLogic.js (mode: 'all')
+import nuxt_plugin_plugin_a3d794b2 from 'nuxt_plugin_plugin_a3d794b2' // Source: ./auth/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -60,7 +64,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Launchpad","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"script":[],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss2?family=Roboto:wght@100;300;400;500&display=swap"}],"style":[]},
+    head: {"title":"Launchpad","meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":"Your own pathway to the internet. _Add, Organize and Search_ your internet apps in a single place. After using this tool you'll better manage the hundreds of sites\u002Flinks you frequently (or sometimes not so frequently) visit."}],"script":[],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"},{"rel":"stylesheet","href":"https:\u002F\u002Fstackpath.bootstrapcdn.com\u002Ffont-awesome\u002F4.7.0\u002Fcss\u002Ffont-awesome.min.css"}],"style":[]},
 
     store,
     router,
@@ -189,12 +193,28 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_fe498ba4 === 'function') {
-    await nuxt_plugin_plugin_fe498ba4(app.context, inject)
+  if (typeof nuxt_plugin_plugin_5c0db215 === 'function') {
+    await nuxt_plugin_plugin_5c0db215(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_categoriesdata_24a66952 === 'function') {
-    await nuxt_plugin_categoriesdata_24a66952(app.context, inject)
+  if (typeof nuxt_plugin_axios_7b4294ab === 'function') {
+    await nuxt_plugin_axios_7b4294ab(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_nuxtmq_0a9516f3 === 'function') {
+    await nuxt_plugin_nuxtmq_0a9516f3(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_vuematerial_477a9902 === 'function') {
+    await nuxt_plugin_vuematerial_477a9902(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_apiLogic_585c88dd === 'function') {
+    await nuxt_plugin_apiLogic_585c88dd(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_plugin_a3d794b2 === 'function') {
+    await nuxt_plugin_plugin_a3d794b2(app.context, inject)
   }
 
   // Lock enablePreview in context

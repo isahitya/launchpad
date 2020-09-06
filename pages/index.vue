@@ -6,16 +6,14 @@
 <template>
   <div class="container">
     <Navbar />
-    <div class="sidebar-and-content-grid">
-      <Sidebar />
-      <Content />
-    </div>
+    <Sidebar />
+    <Content />
   </div>
 </template>
 
 <script>
 export default {
-  fetch() {},
+  middleware: "loadData",
 };
 </script>
 
@@ -23,10 +21,5 @@ export default {
 .container {
   margin: 0 auto;
   min-height: 100vh;
-}
-
-.sidebar-and-content-grid {
-  display: grid;
-  grid-template-columns: 15rem calc(100vw - 15rem);
 }
 </style>

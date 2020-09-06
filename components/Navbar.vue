@@ -1,239 +1,169 @@
-<!---
- Generate the header of the app 
- Containing -
- Brand (Logo, Brand Name,)
- Account Number Field
- Quick Filter Field (to filter the tiles according to their tite, content)
- --->
 <!--
- <App-head> component will generate   : 
-   - Branding components :logo, title header, input box and filter box
-   - This will be a navbar on the application page
- --->
+Component will generate : 
+  - Hamburger button
+  - Hero section 
+  - Search input field
+  - Refresh icon
+  - User avatar
+-->
+
 <template>
-  <header class="app-header">
-    <div class="brand">
-      <img class="logo" :src="this.$store.state.iconURLs.awsLogoWhite" />
-      <div class="separator"></div>
-      <h1 class="title">Launchpad</h1>
-    </div>
-    <input
-      class="account-no-input"
-      placeholder="Account number"
-      type="number"
-      v-model="accountNumber"
-      ref="accountNoInput"
+  <header class="app-header  ">
+    <img
+      class="hamburger-menu-icon"
+      src="~/assets/icons/hamburger_menu_icon.png"
+      @click="hamburgerButtonClick()"
     />
-    <select
-      class="region-select"
-      @change="regionSelected($event)"
-      ref="regionSelect"
-      :style="{
-        backgroundImage: `url(${this.$store.state.iconURLs.downArrow})`,
-      }"
-    >
-      <option
-        v-for="region in $store.state.regions"
-        :key="region.code"
-        :value="region.code"
-        >{{ region.name }} {{ region.code }}</option
-      >
-    </select>
-    <div class="quick-filter-hamburger-container">
-      <a class="hamburger-menu-icon">
-        <img :src="this.$store.state.iconURLs.hamburger"
-      /></a>
-      <img class="search-icon" :src="this.$store.state.iconURLs.search" />
-      <input class="quick-filter" placeholder="Search" v-model="searchFilter" />
+    <div class="hero">
+      <img src="~/assets/icons/launchio_logo.png" />
+
+      <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
     </div>
+    <SearchInput />
+    <i class="fa fa-refresh fa-2x" aria-hidden="true"></i>
+    <img
+      class="user-avatar "
+      id="user-avatar"
+      src="~/assets/profile_image.jpeg"
+      @click="togglePopoverMenu()"
+    />
+    <!-- <div class="logout-button" @click="$auth.logout()">
+      <img src="https://img.icons8.com/ios/50/000000/export.png" />
+      <h1>Logout</h1>
+    </div> -->
+    <PopoverMenu />
   </header>
 </template>
 
 <script>
 export default {
-  computed: {
-    accountNumber: {
-      get() {
-        return this.$store.state.accountNumber;
-      },
-      set(value) {
-        this.$store.dispatch("setAccountNumber", value);
-      },
-    },
-    searchFilter: {
-      get() {
-        return this.$store.state.searchFilter;
-      },
-      set(value) {
-        this.$store.dispatch("setSearchFilter", value);
-      },
-    },
-  },
   methods: {
-    regionSelected(event) {
-      this.$store.dispatch("setSelectedRegion", event.target.value);
+    hamburgerButtonClick() {
+      $nuxt.$emit("hamburger-button-click");
     },
-  },
-  mounted() {
-    this.$refs.regionSelect.selectedIndex = 0;
-    this.$refs.regionSelect.style.backgroundImage = "";
-    this.$refs.accountNoInput.value = "";
+    togglePopoverMenu() {
+      $nuxt.$emit("toggle-popover-menu");
+    },
   },
 };
 </script>
 
-<style scoped>
+<style>
 .app-header {
-  margin: 0px;
-  box-shadow: 2px 1px 5px 1px rgb(0, 0, 0, 0.2);
-  height: 4rem;
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: flex-start;
-  align-items: center;
-  background-color: #232f3e;
-}
-
-.brand {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.logo {
-  margin-left: 1rem;
-  height: 3.5rem;
-}
-
-.title {
-  font-weight: 300;
-  color: rgb(255, 255, 255);
-  margin-left: 1rem;
-  font-size: 1.5rem;
-}
-
-.separator {
-  border-left: 1px solid #161e27;
-  height: 3rem;
-  margin-left: 2px;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.account-no-input {
-  font-family: inherit;
-  font-size: 1rem;
-  border: 1px solid #c1c1c1;
-  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.05);
-  border-radius: 2px;
-  height: 2rem;
-  width: 20rem;
-  padding-left: 0.5rem;
-  margin-left: auto;
-  margin-left: 1rem;
-  outline: none;
-}
-
-.account-no-input:hover,
-.account-no-input:focus {
-  background-color: rgb(244, 249, 255);
-  box-shadow: 0px 5px 3px rgba(0, 0, 0, 0.05);
-}
-
-.account-no-input::placeholder {
-  font-style: italic;
-  opacity: 0.5;
-}
-
-.region-select {
-  background-repeat: no-repeat;
-  background-position: right;
-  background-size: 0.8rem;
-  background-position-x: calc(100% - 0.3rem);
-  padding-right: 1.5rem;
-  padding-left: 0.5rem;
-  border-radius: 3px;
-  height: 2rem;
-  margin-left: 1rem;
-  background-color: white;
-  color: rgb(42, 42, 42);
-  outline: none;
-}
-
-.region-select option {
-  height: 2rem;
-}
-
-.quick-filter-hamburger-container {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
+  position: fixed;
+  top: 0px;
+  height: 3.7rem;
+  box-shadow: 1px 1px 2px 1px rgb(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  width: 100%;
+  border-bottom: 1px solid rgb(218, 218, 218);
 }
 
 .hamburger-menu-icon {
-  display: none;
-  height: 2rem;
-  width: 2rem;
+  cursor: pointer;
+  height: 1.75rem !important;
   margin-left: 1rem;
-}
-.hamburger-menu-icon img {
-  width: 100%;
+  opacity: 0.85;
 }
 
-.quick-filter {
-  font-family: inherit;
-  font-size: 1rem;
-  border: 1px solid #c1c1c1;
-  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.05);
-  border-radius: 2px;
-  height: 2rem;
-  width: 15rem;
-  padding-left: 2.5rem;
+i.fa-refresh {
+  opacity: 0.7;
   margin-left: auto;
-  margin-right: 5rem;
-  outline: none;
+  margin-right: 2rem;
 }
 
-.search-icon {
-  position: absolute;
-  height: 1.25rem;
-  opacity: 0.5;
-  margin-left: 0.75rem;
+.user-avatar {
+  cursor: pointer;
+  width: 2.5rem;
+  border-radius: 50%;
+  margin-top: 0rem;
+
+  margin-right: 2rem;
 }
 
-.quick-filter::placeholder,
-.account-no-input::placeholder {
-  color: rgb(139, 139, 139);
-  opacity: 0.5;
+.logout-button {
+  cursor: pointer;
+  margin-right: 0.5rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 5.7rem;
+  height: 2rem;
+  /* background-color: rgb(250, 250, 250);
+   */
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 2px 1px rgb(0, 0, 0, 0.1);
+}
+
+.logout-button h1 {
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.logout-button img {
+  height: 1.4rem;
+  width: 1.4rem;
+}
+
+.hero {
+  margin: 0px !important;
+  margin-left: 1.4rem !important;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.hero h1 {
+  font-weight: 400;
+  color: rgb(56, 56, 56);
   font-style: italic;
+  font-size: 1.15rem;
+  margin-left: 0.5rem;
 }
 
-.quick-filter:hover,
-.quick-filter:focus {
-  background-color: rgb(244, 249, 255);
-  box-shadow: 0px 5px 3px rgba(0, 0, 0, 0.05);
+.hero img {
+  /* height: 2.5rem !important; */
+  width: 10rem;
+  min-width: 10rem;
+}
+
+.tabs {
+  display: flex;
+
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 6rem;
+}
+
+.tabs h1 {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgb(32, 32, 32);
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
+.vertical-separator {
+  background-color: rgb(131, 131, 131);
+  box-shadow: 0 0 2px rgb(58, 58, 58);
+  opacity: 0.5;
+  width: 1px;
+  height: 3rem;
 }
 
 @media (max-width: 30rem) {
+  .profile-image {
+    visibility: hidden;
+  }
+  .fa-refresh {
+    visibility: hidden;
+  }
   .app-header {
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 10.5rem;
-  }
-  .title {
-    font-size: 2rem;
-    margin-top: 0.5rem;
-  }
-  .account-no-input {
-    width: 18rem;
-  }
-  .quick-filter {
-    width: 15rem;
-    margin-top: 0.5rem;
-    margin-left: 0.5rem;
-  }
-  .hamburger-menu-icon {
-    display: inline-block;
+    width: 100vw;
   }
 }
 </style>

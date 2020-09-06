@@ -1,6 +1,6 @@
 <!--
 <SidebarItem> component will generate:
-  - header for the category name
+  - header for the section name
   - styling for the highlighted item
 -->
 
@@ -8,50 +8,83 @@
   <div
     :class="{
       'sidebar-item': true,
-      'highlighted-item': highlight == true,
+      'selected-item': highlight == true,
     }"
   >
+    <img :src="iconURL" />
     <h1>{{ text }}</h1>
+    <span class="tile-count">{{ tileCount }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  props: { text: String, highlight: Boolean },
+  props: {
+    text: String,
+    highlight: Boolean,
+    iconURL: String,
+    tileCount: Number,
+  },
 };
 </script>
 
 <style>
 .sidebar-item {
-  margin-bottom: 1.5rem;
-  height: 3rem;
-  width: 12rem;
-  border-radius: 5px;
+  margin-right: 1.5rem;
+  height: 2rem;
+  border-radius: 0px 0.3rem 0.3rem 0px;
+  /* width: 100%; */
   transition: background-color 0.2s linear;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  transition: ease-in-out, all 0.2s ease-in-out;
 }
+
+.sidebar-item img {
+  height: 1.5rem;
+  margin-left: 3.5rem;
+}
+
 .sidebar-item:hover {
-  background-color: rgb(248, 248, 248);
+  background-color: #dadada;
 }
 
 .sidebar-item h1 {
   vertical-align: middle;
-  margin-left: 0.8rem;
+  margin-left: 0.5rem;
+  color: #000000;
+}
+
+.selected-item {
+  background-color: #3773ae !important;
+}
+
+.selected-item h1 {
   font-weight: 400;
-  font-size: 1rem;
-  color: rgb(55, 55, 55);
+  color: white;
 }
 
-.sidebar-item h1:hover {
-  cursor: pointer;
-  color: black;
-}
-
-.highlighted-item h1 {
-  color: #f58435;
+.tile-count {
   font-weight: 500;
+  font-size: 0.9rem;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  background-color: #999999;
+  color: white;
+  width: 1.75rem;
+  border-radius: 45%;
+  text-align: center;
 }
 
-.highlighted-item h1:hover {
-  color: #f58435;
+.selected-item .tile-count {
+  background-color: white;
+  color: #3773ae;
+}
+
+.selected-item img {
+  /* To make image light(or opposite of what it was) */
+  filter: invert(1);
 }
 </style>

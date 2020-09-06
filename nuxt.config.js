@@ -30,7 +30,12 @@ export default {
       {
         rel: "stylesheet",
         href:
-          "https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap",
+          "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href:
+          "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
       },
     ],
   },
@@ -42,7 +47,7 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: ["~/plugins/categories-data.js"],
+  plugins: ["~/plugins/apiLogic.js"],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -55,10 +60,74 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [],
-  /*
-   ** Build configuration
-   ** See https://nuxtjs.org/api/configuration-build/
-   */
+  modules: [
+    [
+      "nuxt-vue-material",
+      {
+        theme: "default",
+      },
+    ],
+    [
+      "nuxt-mq",
+      {
+        // Default breakpoint for SSR
+        defaultBreakpoint: "default",
+        breakpoints: {
+          sm: 450,
+          md: 1250,
+          lg: Infinity,
+        },
+      },
+    ],
+    "@nuxtjs/axios",
+    "@nuxtjs/auth",
+  ],
+
+  auth: {
+    redirect: {
+      login: "/register", // User will be redirected to this path if login is required.
+      home: "/", // User will be redirect to this path after login. (rewriteRedirects will rewrite this path)
+      logout: "/register", // User will be redirected to this path if after logout, current route is protected.
+      user: "/user",
+      callback: "/",
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/login",
+            method: "post",
+            propertyName: "token",
+          },
+          logout: { url: "/logout", method: "post" },
+          user: { url: "/user", method: "get", propertyName: "user" },
+        },
+        tokenRequired: false, //True by default
+        tokenType: false, // "bearer"
+        // globalToken: true,
+        // autoFetchUser: true
+      },
+      // cookie: {
+      //   options: {
+      //     secure: false,
+      //   },
+      // },
+    },
+  },
+  axios: {
+    baseURL: "http://localhost:5000/",
+    credentials: true,
+    init(axios) {
+      axios.defaults.withCredentials = true;
+    },
+  },
+
   build: {},
+  // axios: {
+  //   credentials: true,
+  //   init(axios) {
+  //     axios.defaults.withCredentials = true;
+  //   },
+  // },
+  // serverMiddleware: ["~/api"],
 };

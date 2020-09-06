@@ -1,9 +1,23 @@
 [
   {
+    "name": "login",
+    "path": "/login",
+    "component": "/home/sahitya/TM/launchpad/pages/login.vue",
+    "chunkName": "pages/login",
+    "_name": "_9e5398ac"
+  },
+  {
+    "name": "register",
+    "path": "/register",
+    "component": "/home/sahitya/TM/launchpad/pages/register.vue",
+    "chunkName": "pages/register",
+    "_name": "_6d374cf2"
+  },
+  {
     "name": "index",
     "path": "/",
-    "component": "/home/sahitya/TM/csseg/launchpad/launchpad/pages/index.vue",
+    "component": "/home/sahitya/TM/launchpad/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_0b651e1a"
+    "_name": "_31a2deda"
   }
 ]

@@ -1,15 +1,39 @@
 {
+  "AccountNoAndRegion": {
+    "description": "Auto imported from components/AccountNoAndRegion.vue"
+  },
+  "LazyAccountNoAndRegion": {
+    "description": "Auto imported from components/AccountNoAndRegion.vue"
+  },
   "Content": {
     "description": "Auto imported from components/Content.vue"
   },
   "LazyContent": {
     "description": "Auto imported from components/Content.vue"
   },
+  "CreateDialog": {
+    "description": "Auto imported from components/CreateDialog.vue"
+  },
+  "LazyCreateDialog": {
+    "description": "Auto imported from components/CreateDialog.vue"
+  },
   "Navbar": {
     "description": "Auto imported from components/Navbar.vue"
   },
   "LazyNavbar": {
     "description": "Auto imported from components/Navbar.vue"
+  },
+  "PopoverMenu": {
+    "description": "Auto imported from components/PopoverMenu.vue"
+  },
+  "LazyPopoverMenu": {
+    "description": "Auto imported from components/PopoverMenu.vue"
+  },
+  "SearchInput": {
+    "description": "Auto imported from components/SearchInput.vue"
+  },
+  "LazySearchInput": {
+    "description": "Auto imported from components/SearchInput.vue"
   },
   "Sidebar": {
     "description": "Auto imported from components/Sidebar.vue"
