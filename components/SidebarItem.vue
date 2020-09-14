@@ -31,7 +31,7 @@ export default {
 <style>
 .sidebar-item {
   margin-right: 1.5rem;
-  height: 2rem;
+  height: 2.3rem;
   border-radius: 0px 0.3rem 0.3rem 0px;
   /* width: 100%; */
   transition: background-color 0.2s linear;

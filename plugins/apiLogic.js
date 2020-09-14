@@ -1,7 +1,8 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
 let apiLogic = {
-  apiURL: "http://localhost:5000",
+  //apiURL: "http://localhost:5000",
+  apiURL: `http://${process.env.API_HOST}:${process.env.API_PORT}`,
   jsonRequestOptions: {
     withCredentials: true,
     headers: {

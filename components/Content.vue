@@ -9,6 +9,9 @@
   >
     <CreateDialog />
     <AccountNoAndRegion v-if="isK2ScriptSelected" />
+    <!-- <div class="tiles-container">
+      <Tile v-for="tile in frequentlyUsedApps" :key="tile.id" :data="tile" />
+    </div> -->
     <div class="tiles-container">
       <Tile v-for="tile in tilesToDisplaySorted" :key="tile.id" :data="tile" />
     </div>
@@ -54,6 +57,7 @@ export default {
       }
       return this.filterTiles(filter);
     },
+    frequentlyUsedApps() {},
   },
   methods: {
     getAllTiles(e) {

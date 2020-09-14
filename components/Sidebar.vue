@@ -50,12 +50,11 @@ Section selected by user will always be shown(won't hide when collapsing the dro
           :ref="item.id"
         />
       </div>
-      <div class="sidebar-separator"></div>
+      <!-- <div class="sidebar-separator"></div>
       <div
         class="sidebar-heading-container "
         @click="toggleSidebarK2ScriptsItems()"
-      >
-        <!-- <i class="fa fa-home fa-2x " aria-hidden="true"></i> -->
+      >        
         <i
           class="fa fa-angle-left fa-2x arrow-icon"
           :class="{ 'rotate-arrow-icon': !k2ScriptsOpen }"
@@ -82,7 +81,7 @@ Section selected by user will always be shown(won't hide when collapsing the dro
           @click.native="sidebarItemSelected(item.id)"
           :ref="item.id"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

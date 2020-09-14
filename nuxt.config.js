@@ -1,3 +1,4 @@
+require("dotenv").config();
 export default {
   /*
    ** Nuxt rendering mode
@@ -81,6 +82,7 @@ export default {
     ],
     "@nuxtjs/axios",
     "@nuxtjs/auth",
+    "@nuxtjs/dotenv",
   ],
 
   auth: {
@@ -104,18 +106,12 @@ export default {
         },
         tokenRequired: false, //True by default
         tokenType: false, // "bearer"
-        // globalToken: true,
-        // autoFetchUser: true
       },
-      // cookie: {
-      //   options: {
-      //     secure: false,
-      //   },
-      // },
     },
   },
   axios: {
-    baseURL: "http://localhost:5000/",
+    baseURL:
+      "http://" + process.env.API_HOST + ":" + process.env.API_PORT + "/",
     credentials: true,
     init(axios) {
       axios.defaults.withCredentials = true;
@@ -123,11 +119,8 @@ export default {
   },
 
   build: {},
-  // axios: {
-  //   credentials: true,
-  //   init(axios) {
-  //     axios.defaults.withCredentials = true;
-  //   },
-  // },
-  // serverMiddleware: ["~/api"],
+  //Uncomment below property when deploying to EC2
+  // server: {
+  //   host: '0.0.0.0' // default: localhost
+  // }
 };

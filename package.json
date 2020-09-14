@@ -12,6 +12,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.12.1",
+    "@nuxtjs/dotenv": "^1.4.1",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
     "fuse.js": "^6.4.1",

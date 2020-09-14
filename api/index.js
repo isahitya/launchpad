@@ -11,8 +11,15 @@ const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
 
-const port = 5000;
-const serverBaseURL = "http://localhost:" + port;
+const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const PORT = process.env.SERVER_PORT || 5000;
+const SERVER_BASE_URL = "http://" + SERVER_HOST + ":" + PORT;
+
+const WEB_SERVER_HOST = process.env.WEB_SERVER_HOST || "localhost";
+const WEB_SERVER_PORT = process.env.WEB_SERVER_PORT || 3000;
+const WEB_SERVER_REDIRECT_URL =
+  "http://" + WEB_SERVER_HOST + ":" + WEB_SERVER_PORT + "/";
+
 const app = express();
 
 const gs = require("./launchpad_populate/genSections");
@@ -25,7 +32,10 @@ app.use(express.static("./uploads"));
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "https://localhost:3000"],
+    origin: [
+      "http://" + WEB_SERVER_HOST + ":" + WEB_SERVER_PORT,
+      "https://" + WEB_SERVER_HOST + ":" + WEB_SERVER_PORT,
+    ],
   })
 );
 
@@ -80,10 +90,9 @@ passport.deserializeUser(function(id, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "748520804903-4r8a06cvcafrrtfsjp4it8c15fjst1oh.apps.googleusercontent.com",
-      clientSecret: "mlvvFpwURvmO-nFjH_uP5XwY",
-      callbackURL: serverBaseURL + "/auth/google/launchpad",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: SERVER_BASE_URL + "/auth/google/launchpad",
       userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
     },
     function(accessToken, refreshToken, profile, done) {
@@ -120,9 +129,9 @@ passport.use(
 passport.use(
   new GitHubStrategy(
     {
-      clientID: "ad73e3a8b3b21411a2fc",
-      clientSecret: "951c1e46fcd550da17dc52cef69c5a5ae554a07e",
-      callbackURL: serverBaseURL + "/auth/github/launchpad",
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: SERVER_BASE_URL + "/auth/github/launchpad",
     },
     function(accessToken, refreshToken, profile, done) {
       console.log(profile);
@@ -322,7 +331,7 @@ app.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000/");
+    res.redirect(WEB_SERVER_REDIRECT_URL);
   }
 );
 
@@ -336,7 +345,7 @@ app.get(
   passport.authenticate("github", { failureRedirect: "/login" }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect("http://localhost:3000/");
+    res.redirect(WEB_SERVER_REDIRECT_URL);
   }
 );
 
@@ -452,7 +461,7 @@ app.post("/tile", upload.single("appIcon"), async (req, res) => {
         "https://www.google.com/s2/favicons?sz=128&domain_url=" + newTile.url;
     }
     if (req.file) {
-      newTile.iconURL = serverBaseURL + "/" + req.file.filename;
+      newTile.iconURL = SERVER_BASE_URL + "/" + req.file.filename;
     }
     //Tile name from page meta if not given by user
     if (!newTile.name || newTile.iconURL == "") {
@@ -510,4 +519,4 @@ app.delete("/tile", async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server started on port 5000"));
+app.listen(PORT, () => console.log("Server started on port " + PORT));
