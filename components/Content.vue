@@ -9,6 +9,9 @@
   >
     <CreateDialog />
     <AccountNoAndRegion v-if="isK2ScriptSelected" />
+    <!-- <div class="tiles-container">
+      <Tile v-for="tile in frequentlyUsedApps" :key="tile.id" :data="tile" />
+    </div> -->
     <div class="tiles-container">
       <Tile v-for="tile in tilesToDisplaySorted" :key="tile.id" :data="tile" />
     </div>
@@ -16,10 +19,14 @@
 </template>
 
 <script>
+import Fuse from "fuse.js";
 export default {
   data() {
     return {
       sidebarOpen: true,
+      recognition: null,
+      buttonText: "Start",
+      listening: false,
     };
   },
   created() {
@@ -40,7 +47,7 @@ export default {
       const filter = this.$store.state.appLogic.searchFilter.toUpperCase();
       if (filter.length == 0) {
         if (this.homeSectionSelected) {
-          return this.filterTiles("");
+          return this.getAllTiles(this.$store.state.appLogic.sections);
         }
         if (this.isK2ScriptSelected) {
           return this.$store.state.appLogic.selectedK2Script.tiles;
@@ -50,24 +57,44 @@ export default {
       }
       return this.filterTiles(filter);
     },
+    frequentlyUsedApps() {},
   },
   methods: {
+    getAllTiles(e) {
+      return e.reduce((tiles, category) => {
+        tiles = tiles.concat(category.tiles);
+        return tiles;
+      }, []);
+    },
     filterTiles(filter) {
       //Filters tiles based on the section selected(K2Script or My Apps)
-      let tiles = [];
-      const sections = this.$store.state.appLogic.sections;
-      const k2Scripts = this.$store.state.appLogic.k2Scripts;
+      try {
+        const sections = this.$store.state.appLogic.sections;
+        const k2Scripts = this.$store.state.appLogic.k2Scripts;
+        let tilesToFilter = [];
+        let filteredTiles = [];
 
-      const filterFunction = (section) => {
-        let filteredTiles = section.tiles.filter((tile) => {
-          return tile.name.toUpperCase().includes(filter);
-        });
-        if (filteredTiles.length) tiles = tiles.concat(filteredTiles);
-      };
+        if (this.isK2ScriptSelected) {
+          tilesToFilter = tilesToFilter.concat(this.getAllTiles(k2Scripts));
+        } else {
+          tilesToFilter = tilesToFilter.concat(this.getAllTiles(sections));
+        }
 
-      if (this.isK2ScriptSelected) k2Scripts.forEach(filterFunction);
-      else sections.forEach(filterFunction);
-      return tiles;
+        const options = {
+          keys: ["name", "description"],
+          shouldSort: true,
+          findAllMatches: true,
+        };
+        let fuse = new Fuse(tilesToFilter, options);
+        let result = fuse.search(filter);
+        if (result) {
+          filteredTiles = result.map((t) => t.item);
+        }
+        return filteredTiles;
+      } catch (err) {
+        console.log(err);
+        return [];
+      }
     },
     toggleContentPosition() {
       this.sidebarOpen = !this.sidebarOpen;

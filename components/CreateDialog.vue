@@ -4,9 +4,13 @@
 
     <md-tabs @md-changed="tabChanged($event)" md-dynamic-height>
       <md-tab md-label="App Tile" id="tileTab">
-        <md-field>
+        <md-field :class="{ 'md-invalid': showSelectSectionError }">
           <label>Section</label>
-          <md-select v-model="tileSectionId">
+          <md-select
+            v-model="tileSectionId"
+            required
+            @md-selected="showSelectSectionError = false"
+          >
             <md-option
               v-for="section in sections"
               :key="section.id"
@@ -14,14 +18,16 @@
               >{{ section.name }}</md-option
             >
           </md-select>
+          <span class="md-error">Please select a section</span>
         </md-field>
         <md-field>
           <label>Application name</label>
           <md-input v-model="tileName"></md-input>
         </md-field>
-        <md-field>
+        <md-field :class="{ 'md-invalid': showApplicationURLError }">
           <label>Application URL</label>
           <md-input v-model="tileURL"></md-input>
+          <span class="md-error">Please enter application url</span>
         </md-field>
         <md-field
           ><label>Application icon URL (optional)</label>
@@ -37,9 +43,10 @@
         </md-field>
       </md-tab>
       <md-tab md-label="Section" id="sectionTab">
-        <md-field>
+        <md-field :class="{ 'md-invalid': showSectionNameError }">
           <label>Section name</label>
           <md-input v-model="sectionName"></md-input>
+          <span class="md-error">Please enter section name</span>
         </md-field>
         <md-field>
           <label>Icon URL</label>
@@ -75,6 +82,9 @@ export default {
       tileURL: "",
       tileIconURL: "",
       appIconFile: null,
+      showSelectSectionError: false,
+      showApplicationURLError: false,
+      showSectionNameError: false,
     };
   },
   computed: {
@@ -95,39 +105,38 @@ export default {
       this.appIconFile = null;
     },
     saveButtonClicked() {
+      let result = false;
       if (this.currentTabId == "sectionTab") {
-        this.saveNewSection();
+        result = this.saveNewSection();
       }
       if (this.currentTabId == "tileTab") {
-        this.saveNewTile();
+        result = this.saveNewTile();
       }
-      this.showDialog = false;
-      this.clearFields();
+      if (result) this.showDialog = false;
+      if (!this.showDialog) this.clearFields();
     },
     saveNewSection() {
       if (this.sectionName.length == 0) {
-        alert("Please enter section name");
-        return;
+        this.showSectionNameError = true;
+        return false;
       }
       this.$store.dispatch("appLogic/addSection", {
         name: this.sectionName,
         iconURL: this.sectionIconURL,
       });
+      return true;
     },
     saveNewTile() {
+      let errors = false;
       if (this.tileSectionId.length == 0) {
-        alert("Please select a section");
-        return;
+        this.showSelectSectionError = true;
+        errors = true;
       }
-      // if (this.tileName.length == 0) {
-      //   alert("Please enter application name");
-      //   return;
-      // }
       if (this.tileURL.length == 0) {
-        alert("Please enter application URL");
-        return;
+        this.showApplicationURLError = true;
+        errors = true;
       }
-
+      if (errors) return false;
       this.tileURL =
         this.tileURL.startsWith("http://") ||
         this.tileURL.startsWith("https://")
@@ -140,7 +149,9 @@ export default {
         sectionId: this.tileSectionId,
         iconURL: this.tileIconURL,
         iconFile: this.appIconFile,
+        score: 0,
       });
+      return true;
     },
     clearFields() {
       this.sectionName = "";
@@ -150,6 +161,9 @@ export default {
       this.tileURL = "";
       this.tileIconURL = "";
       this.appIconFile = null;
+      this.showSelectSectionError = false;
+      this.showApplicationURLError = false;
+      this.showSectionNameError = false;
     },
   },
 };

@@ -33,7 +33,7 @@
 
 <script>
 import metafetch from "metafetch";
-
+import axios from "axios";
 export default {
   props: ["data"],
   data() {
@@ -55,7 +55,6 @@ export default {
     this.$nuxt.$on("toggle-edit-mode", () => {
       this.editMode = !this.editMode;
     });
-    //this.fetchPageName(this.data.url).then((name) => console.log(name));
   },
   methods: {
     deleteTile() {
@@ -67,29 +66,19 @@ export default {
       }
       window.open(this.tileURL);
     },
-
-    // async fetchPageName(url) {
-    //   let name = null;
-    //   const meta = await metafetch.fetch(url);
-    //   if (!meta) {
-    //     return null;
+    // getPageName() {
+    //   const defaultRequestOptions = {
+    //     withCredentials: true,
+    //     crossDomain: true,
+    //   };
+    //   try {
+    //     const response = axios.get(
+    //       "https://cors-anywhere.herokuapp.com/" + this.tileURL
+    //     );
+    //     console.log(response);
+    //   } catch (err) {
+    //     console.log(err);
     //   }
-    //   if (meta.siteName) {
-    //     name = meta.siteName;
-    //   } else if (meta.keywords) {
-    //     name = meta.keywords.split(",")[0];
-    //   } else if (meta.Keywords) {
-    //     name = meta.Keywords.split(",")[0];
-    //   } else if (meta.meta.keywords) {
-    //     name = meta.meta.keywords.split(",")[0];
-    //   } else if (meta.meta.Keywords) {
-    //     name = meta.meta.Keywords.split(",")[0];
-    //   } else if (meta.title) {
-    //     name = meta.title;
-    //   } else if (meta.url) {
-    //     name = meta.url;
-    //   }
-    //   return name;
     // },
   },
 };
